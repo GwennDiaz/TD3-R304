@@ -1,5 +1,5 @@
 package Characters;
 
-public enum Sexe {
+public enum Gender {
     MASCULIN, FEMININ
 }
