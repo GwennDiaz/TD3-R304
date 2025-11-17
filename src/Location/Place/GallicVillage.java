@@ -2,9 +2,9 @@ package Location.Place;
 import Location.Location;
 import Characters.Character;
 import Characters.Gallics.Gallic;
-import Characters.MagicalCreature;
+import Characters.MagicalCreature.Lycanthrope;
 
-public class GallicVillage extends {
+public class GallicVillage extends Location{
 
     public GallicVillage(String name, double area, Gallic clanChief) {
         super(name, area, clanChief);
@@ -12,7 +12,7 @@ public class GallicVillage extends {
 
     @Override
     public void addCharacter(Character character) {
-        if (character instanceof Gallic || character instanceof MagicalCreature) {
+        if (character instanceof Gallic || character instanceof Lycanthrope) {
             super.addCharacter(character);
         } else {
             System.out.println(character.getName() + " cannot enter the Gallic Village!");

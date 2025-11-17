@@ -1,7 +1,7 @@
 package Location.Place;
 import Location.Location;
 import Characters.Character;
-import Characters.MagicalCreature;
+import Characters.MagicalCreature.Lycanthrope;
 import Characters.Gallics.Gallic;
 
     public class Enclosure extends Location {
@@ -12,7 +12,7 @@ import Characters.Gallics.Gallic;
 
         @Override
         public void addCharacter(Character character) {
-            if (character instanceof MagicalCreature) {
+            if (character instanceof Lycanthrope) {
                 super.addCharacter(character);
             } else {
                 System.out.println(character.getName() + " is not a creature and cannot enter the Enclosure!");
