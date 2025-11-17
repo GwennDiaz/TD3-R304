@@ -1,38 +1,38 @@
 package Characters.Gallics;
 
-import Characters.Sexe;
+import Characters.Gender;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
-class Blacksmith extends Gallic {
-    private int qualiteArmes; // 0-100
+public class Blacksmith extends Gallic {
+    private int weaponQuality; // 0-100
 
-    public Blacksmith(String nom, Sexe sexe, double taille, int age, int force,
-                      int endurance, int sante, int faim, int belligerance,
-                      int niveauPotionMagique, int qualiteArmes) {
-        super(nom, sexe, taille, age, force, endurance, sante, faim, belligerance, niveauPotionMagique);
-        this.qualiteArmes = qualiteArmes;
+    public Blacksmith(String name, Gender gender, double height, int age, int strength,
+                      int endurance, int health, int hunger, int belligerence,
+                      int magicPotionLevel, int weaponQuality) {
+        super(name, gender, height, age, strength, endurance, health, hunger, belligerence, magicPotionLevel);
+        this.weaponQuality = weaponQuality;
     }
 
-    public int getQualiteArmes() {
-        return qualiteArmes;
+    public int getWeaponQuality() {
+        return weaponQuality;
     }
 
-    public void forgerArme() {
-        System.out.println(nom + " forge une arme de qualité " + qualiteArmes + ".");
-        setFaim(min(100, getFaim() + 10));
-        // Forger fatigue le forgeron
+    public void forgeWeapon() {
+        System.out.println(name + " forges a weapon of quality " + weaponQuality + ".");
+
+        setHunger(min(100, getHunger() + 10));
+
         this.endurance = max(0, this.endurance - 5);
     }
 
-    public void reparerArme() {
-        System.out.println(nom + " répare une arme.");
+    public void repairWeapon() {
+        System.out.println(name + " repairs a weapon.");
     }
 
     @Override
     public String getType() {
-        return "Forgeron Gaulois";
+        return "Gallic Blacksmith";
     }
 }
-

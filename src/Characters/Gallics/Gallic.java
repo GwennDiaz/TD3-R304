@@ -1,11 +1,11 @@
 package Characters.Gallics;
 
 import Characters.Character;
-import Characters.Sexe;
+import Characters.Gender;
 
-abstract class Gallic extends Character {
-    public Gallic(String nom, Sexe sexe, double taille, int age, int force,
-                  int endurance, int sante, int faim, int belligerance, int niveauPotionMagique) {
-        super(nom, sexe, taille, age, force, endurance, sante, faim, belligerance, niveauPotionMagique);
+public abstract class Gallic extends Character {
+    public Gallic(String name, Gender gender, double height, int age, int strength,
+                  int endurance, int health, int hunger, int belligerence, int magicPotionLevel) {
+        super(name, gender, height, age, strength, endurance, health, hunger, belligerence, magicPotionLevel);
     }
 }

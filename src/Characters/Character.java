@@ -4,66 +4,63 @@ import static java.lang.Math.max;
 import static java.lang.Math.min;
 
 public abstract class Character {
-    protected String nom;
-    protected Sexe sexe;
-    protected double taille; // en mètres
+    protected String name;
+    protected Gender gender;
+    protected double height;
     protected int age;
-    protected int force; // 0-100
-    protected int endurance; // 0-100
-    protected int sante; // 0-100
-    protected int faim; // 0-100 (0 = pas faim, 100 = très affamé)
-    protected int belligerance; // 0-100
-    protected int niveauPotionMagique; // 0-100
+    protected int strength;
+    protected int endurance;
+    protected int health;
+    protected int hunger;
+    protected int belligerence;
+    protected int magicPotionLevel;
 
-    public Character(String nom, Sexe sexe, double taille, int age, int force,
-                     int endurance, int sante, int faim, int belligerance, int niveauPotionMagique) {
-        this.nom = nom;
-        this.sexe = sexe;
-        this.taille = taille;
+    public Character(String name, Gender gender, double height, int age, int strength,
+                     int endurance, int health, int hunger, int belligerence, int magicPotionLevel) {
+        this.name = name;
+        this.gender = gender;
+        this.height = height;
         this.age = age;
-        this.force = force;
+        this.strength = strength;
         this.endurance = endurance;
-        this.sante = sante;
-        this.faim = faim;
-        this.belligerance = belligerance;
-        this.niveauPotionMagique = niveauPotionMagique;
+        this.health = health;
+        this.hunger = hunger;
+        this.belligerence = belligerence;
+        this.magicPotionLevel = magicPotionLevel;
     }
 
-    // Getters
-    public String getNom() { return nom; }
-    public Sexe getSexe() { return sexe; }
-    public double getTaille() { return taille; }
+    public String getName() { return name; }
+    public Gender getGender() { return gender; }
+    public double getHeight() { return height; }
     public int getAge() { return age; }
-    public int getForce() { return force; }
+    public int getStrength() { return strength; }
     public int getEndurance() { return endurance; }
-    public int getSante() { return sante; }
-    public int getFaim() { return faim; }
-    public int getBelligerance() { return belligerance; }
-    public int getNiveauPotionMagique() { return niveauPotionMagique; }
+    public int getHealth() { return health; }
+    public int getHunger() { return hunger; }
+    public int getBelligerence() { return belligerence; }
+    public int getMagicPotionLevel() { return magicPotionLevel; }
 
-    // Setters avec validation (valeurs entre 0 et 100)
-    public void setSante(int sante) {
-        this.sante = max(0, min(100, sante));
+    public void setHealth(int health) {
+        this.health = max(0, min(100, health));
     }
 
-    public void setFaim(int faim) {
-        this.faim = max(0, min(100, faim));
+    public void setHunger(int hunger) {
+        this.hunger = max(0, min(100, hunger));
     }
 
-    public void setBelligerance(int belligerance) {
-        this.belligerance = max(0, min(100, belligerance));
+    public void setBelligerence(int belligerence) {
+        this.belligerence = max(0, min(100, belligerence));
     }
 
-    public void setNiveauPotionMagique(int niveau) {
-        this.niveauPotionMagique = max(0, min(100, niveau));
+    public void setMagicPotionLevel(int level) {
+        this.magicPotionLevel = max(0, min(100, level));
     }
 
-    // Méthode abstraite à implémenter par les sous-classes
     public abstract String getType();
 
     @Override
     public String toString() {
-        return String.format("%s (%s) - %s, %d ans, %.2fm\nForce: %d, Endurance: %d, Santé: %d, Faim: %d, Belligérance: %d, Potion: %d",
-                nom, getType(), sexe, age, taille, force, endurance, sante, faim, belligerance, niveauPotionMagique);
+        return String.format("%s (%s) - %s, %d years, %.2fm\nStrength: %d, Endurance: %d, Health: %d, Hunger: %d, Belligerence: %d, Potion: %d",
+                name, getType(), gender, age, height, strength, endurance, health, hunger, belligerence, magicPotionLevel);
     }
 }

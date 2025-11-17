@@ -1,44 +1,43 @@
 package Characters.Gallics;
 
-import Characters.Sexe;
+import Characters.Gender;
 
-class Merchant extends Gallic {
-    private int argentPossede;
+public class Merchant extends Gallic {
+    private int money;
 
-    public Merchant(String nom, Sexe sexe, double taille, int age, int force,
-                    int endurance, int sante, int faim, int belligerance,
-                    int niveauPotionMagique, int argentPossede) {
-        super(nom, sexe, taille, age, force, endurance, sante, faim, belligerance, niveauPotionMagique);
-        this.argentPossede = argentPossede;
+    public Merchant(String name, Gender gender, double height, int age, int strength,
+                    int endurance, int health, int hunger, int belligerence,
+                    int magicPotionLevel, int money) {
+        super(name, gender, height, age, strength, endurance, health, hunger, belligerence, magicPotionLevel);
+        this.money = money;
     }
 
-    public int getArgentPossede() {
-        return argentPossede;
+    public int getMoney() {
+        return money;
     }
 
-    public void setArgentPossede(int argent) {
-        this.argentPossede = argent;
+    public void setMoney(int money) {
+        this.money = money;
     }
 
-    public void vendre(int montant) {
-        this.argentPossede += montant;
-        System.out.println(nom + " a vendu pour " + montant + " pièces d'or.");
+    public void sell(int amount) {
+        this.money += amount;
+        System.out.println(name + " sold for " + amount + " gold coins.");
     }
 
-    public boolean acheter(int montant) {
-        if (argentPossede >= montant) {
-            this.argentPossede -= montant;
-            System.out.println(nom + " a acheté pour " + montant + " pièces d'or.");
+    public boolean buy(int amount) {
+        if (money >= amount) {
+            this.money -= amount;
+            System.out.println(name + " bought for " + amount + " gold coins.");
             return true;
         } else {
-            System.out.println(nom + " n'a pas assez d'argent !");
+            System.out.println(name + " does not have enough money!");
             return false;
         }
     }
 
     @Override
     public String getType() {
-        return "Marchand Gaulois";
+        return "Gallic Merchant";
     }
 }
-
