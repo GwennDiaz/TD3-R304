@@ -1,4 +1,4 @@
-package Aliment.Vegetable;
+package Consommable.Plants;
 
 public class FreshFourLeafClover {
 }
