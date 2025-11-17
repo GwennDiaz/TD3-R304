@@ -1,48 +1,48 @@
 package Characters.Gallics;
 
 import Characters.Character;
-import Characters.Sexe;
+import Characters.Gender;
 
 import static java.lang.Math.max;
 
-class Innkeeper extends Gallic {
-    private int capaciteAccueil;
-    private int clientsPresents;
+public class Innkeeper extends Gallic {
+    private int hostingCapacity;
+    private int currentCustomers;
 
-    public Innkeeper(String nom, Sexe sexe, double taille, int age, int force,
-                     int endurance, int sante, int faim, int belligerance,
-                     int niveauPotionMagique, int capaciteAccueil) {
-        super(nom, sexe, taille, age, force, endurance, sante, faim, belligerance, niveauPotionMagique);
-        this.capaciteAccueil = capaciteAccueil;
-        this.clientsPresents = 0;
+    public Innkeeper(String name, Gender gender, double height, int age, int strength,
+                     int endurance, int health, int hunger, int belligerence,
+                     int magicPotionLevel, int hostingCapacity) {
+        super(name, gender, height, age, strength, endurance, health, hunger, belligerence, magicPotionLevel);
+        this.hostingCapacity = hostingCapacity;
+        this.currentCustomers = 0;
     }
 
-    public int getCapaciteAccueil() {
-        return capaciteAccueil;
+    public int getHostingCapacity() {
+        return hostingCapacity;
     }
 
-    public int getClientsPresents() {
-        return clientsPresents;
+    public int getCurrentCustomers() {
+        return currentCustomers;
     }
 
-    public boolean accueillirClient() {
-        if (clientsPresents < capaciteAccueil) {
-            clientsPresents++;
-            System.out.println(nom + " accueille un client. (" + clientsPresents + "/" + capaciteAccueil + ")");
+    public boolean hostCustomer() {
+        if (currentCustomers < hostingCapacity) {
+            currentCustomers++;
+            System.out.println(name + " welcomes a customer. (" + currentCustomers + "/" + hostingCapacity + ")");
             return true;
         } else {
-            System.out.println("L'auberge de " + nom + " est complète !");
+            System.out.println(name + "'s inn is full!");
             return false;
         }
     }
 
-    public void servirRepas(Character client) {
-        client.setFaim(max(0, client.getFaim() - 30));
-        System.out.println(nom + " sert un repas à " + client.getNom());
+    public void serveMeal(Character customer) {
+        customer.setHunger(max(0, customer.getHunger() - 30));
+        System.out.println(name + " serves a meal to " + customer.getName());
     }
 
     @Override
     public String getType() {
-        return "Aubergiste Gaulois";
+        return "Gallic Innkeeper";
     }
 }

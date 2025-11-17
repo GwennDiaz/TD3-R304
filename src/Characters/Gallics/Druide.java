@@ -1,46 +1,46 @@
 package Characters.Gallics;
 
 import Characters.Character;
-import Characters.Sexe;
+import Characters.Gender;
 
 import static java.lang.Math.min;
 
-class Druide extends Gallic {
-    private int puissanceMagique; // 0-100
+public class Druide extends Gallic {
+    private int magicPower;
 
-    public Druide(String nom, Sexe sexe, double taille, int age, int force,
-                  int endurance, int sante, int faim, int belligerance,
-                  int niveauPotionMagique, int puissanceMagique) {
-        super(nom, sexe, taille, age, force, endurance, sante, faim, belligerance, niveauPotionMagique);
-        this.puissanceMagique = puissanceMagique;
+    public Druide(String name, Gender gender, double height, int age, int strength,
+                 int endurance, int health, int hunger, int belligerence,
+                 int magicPotionLevel, int magicPower) {
+        super(name, gender, height, age, strength, endurance, health, hunger, belligerence, magicPotionLevel);
+        this.magicPower = magicPower;
     }
 
-    public int getPuissanceMagique() {
-        return puissanceMagique;
+    public int getMagicPower() {
+        return magicPower;
     }
 
-    public void preparerPotion(Character cible, int quantite) {
-        if (puissanceMagique >= 50) {
-            cible.setNiveauPotionMagique(cible.getNiveauPotionMagique() + quantite);
-            System.out.println(nom + " prépare une potion magique pour " + cible.getNom() + " (+" + quantite + ")");
+    public void preparePotion(Character target, int quantity) {
+        if (magicPower >= 50) {
+            target.setMagicPotionLevel(target.getMagicPotionLevel() + quantity);
+            System.out.println(name + " prepares a magic potion for " + target.getName() + " (+" + quantity + ")");
         } else {
-            System.out.println(nom + " n'a pas assez de puissance magique pour préparer une potion !");
+            System.out.println(name + " does not have enough magic power to prepare a potion!");
         }
     }
 
-    public void soigner(Character cible) {
-        int soin = puissanceMagique / 2;
-        cible.setSante(min(100, cible.getSante() + soin));
-        System.out.println(nom + " soigne " + cible.getNom() + " (+" + soin + " santé)");
+    public void heal(Character target) {
+        int healing = magicPower / 2;
+        target.setHealth(min(100, target.getHealth() + healing));
+        System.out.println(name + " heals " + target.getName() + " (+" + healing + " health)");
     }
 
-    public void cueillirGui() {
-        System.out.println(nom + " cueille du gui sacré avec sa serpe d'or.");
-        puissanceMagique = min(100, puissanceMagique + 5);
+    public void gatherMistletoe() {
+        System.out.println(name + " gathers sacred mistletoe with his golden sickle.");
+        magicPower = min(100, magicPower + 5);
     }
 
     @Override
     public String getType() {
-        return "Druide Gaulois";
+        return "Gallic Druid";
     }
 }
