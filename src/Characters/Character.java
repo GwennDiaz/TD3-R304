@@ -58,6 +58,88 @@ public abstract class Character {
 
     public abstract String getType();
 
+    public void fight (Character opponent){
+        if (this.health <= 0){
+            System.out.println(name + "est mort");
+            return;
+        }
+        if(opponent.getHealth() <= 0){
+            System.out.println(name + "est mort");
+            return;
+        }
+        System.out.println(name + "se bat contre " + opponent.getName());
+
+        int damageInflicted = (this.strength * (100 - opponent.getEndurance())) / 100;
+        int damageReceived = (opponent.getStrength() * (100 - this.endurance)) / 1000;
+
+        opponent.setHealth(opponent.getHealth() - damageInflicted);
+        this.health -= damageReceived;
+
+        System.out.println(name + " inflige " + damageInflicted + " dégâts à " + opponent.getName());
+        System.out.println(opponent.getName() + " inflige " + damageReceived + " dégâts à " + name);
+
+        this.setBelligerence(min(100, this.belligerence + 10));
+        opponent.setBelligerence(Math.min(100, opponent.getBelligerence() + 10));
+
+        this.checkTrepas();
+        opponent.checkTrepas();
+
+    }
+
+    public void cure(int careAmount) {
+        if (this.health <= 0) {
+            System.out.println(name + " est mort et ne peut plus être soigné !");
+            return;
+        }
+
+        int oldHealth = this.health;
+        this.setHealth(this.health + careAmount);
+        System.out.println(name + " est soigné de " + careAmount + " points (Santé: " + oldHealth + " -> " + this.health + ")");
+    }
+
+    public void eat(int quantity) {
+        if (this.health <= 0) {
+            System.out.println(name + " est mort et ne peut pas manger !");
+            return;
+        }
+
+        int ancienneFaim = this.hunger;
+        this.setHunger(this.hunger - quantity);
+        System.out.println(name + " mange et réduit sa faim de " + quantity + " points (Faim: " + ancienneFaim + " -> " + this.hunger + ")");
+    }
+
+    public void drinkMagicPotion(int quantity) {
+        if (this.health <= 0) {
+            System.out.println(name + " est mort et ne peut pas boire de potion !");
+            return;
+        }
+
+        int ancienNiveau = this.magicPotionLevel;
+        this.setMagicPotionLevel(this.magicPotionLevel + quantity);
+        System.out.println(name + " boit une potion magique (+" + quantity + " points) (Niveau: " + ancienNiveau + " -> " + this.magicPotionLevel + ")");
+
+        // Bonus : la potion magique restaure un peu de santé et réduit la faim
+        this.cure(quantity / 2);
+        this.setHunger(max(0, this.hunger - quantity / 3));
+    }
+
+    private void checkTrepas() {
+        if (this.health <= 0) {
+            this.health = 0;
+            trepasser();
+        }
+    }
+
+    public void trepasser() {
+        System.out.println(name + " (" + getType() + ") trépasse... RIP");
+        this.health = 0;
+        this.belligerence = 0;
+    }
+
+    public boolean isDead(){
+        return this.health <= 0;
+    }
+
     @Override
     public String toString() {
         return String.format("%s (%s) - %s, %d years, %.2fm\nStrength: %d, Endurance: %d, Health: %d, Hunger: %d, Belligerence: %d, Potion: %d",
