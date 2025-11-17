@@ -2,8 +2,7 @@ package Consommable.Liquid;
 
 import Consommable.FoodCategory;
 
-import static Consommable.FoodCategory.ALCOHOL;
-import static Consommable.FoodCategory.DRINK;
+import static Consommable.FoodCategory.*;
 
 public class Mead {
     private int hungerRestore=10;
@@ -13,4 +12,5 @@ public class Mead {
     private int enduranceDelta=+5;
     private FoodCategory category = DRINK;
     private FoodCategory category2 = ALCOHOL;
+    private FoodCategory category3 = INGREDIENT;
 }
