@@ -1,5 +1,5 @@
 package Characters;
 
 public enum Sexe {
-    MASCULIN, FEMININ
+    MASCULIN, FEMININ, troisFoisParSemaine
 }
