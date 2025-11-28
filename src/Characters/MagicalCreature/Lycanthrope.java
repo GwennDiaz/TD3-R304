@@ -7,7 +7,7 @@ import static java.lang.Math.max;
 import static java.lang.Math.min;
 
 // Classe Lycanthrope (Loup-garou)
-class Lycanthrope extends Character {
+public class Lycanthrope extends Character {
     private boolean humanForm;
     private int originalStrength;
     private int originalBelligerence;

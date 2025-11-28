@@ -5,10 +5,10 @@ import Characters.Gender;
 
 import static java.lang.Math.min;
 
-public class Druide extends Gallic {
+public class Druid extends Gallic {
     private int magicPower;
 
-    public Druide(String name, Gender gender, double height, int age, int strength,
+    public Druid(String name, Gender gender, double height, int age, int strength,
                  int endurance, int health, int hunger, int belligerence,
                  int magicPotionLevel, int magicPower) {
         super(name, gender, height, age, strength, endurance, health, hunger, belligerence, magicPotionLevel);
