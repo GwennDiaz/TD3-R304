@@ -6,7 +6,7 @@ import Characters.Gender;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
-class Legionnaire extends Roman {
+public class Legionnaire extends Roman {
     private String legion;
     private boolean enService;
 
