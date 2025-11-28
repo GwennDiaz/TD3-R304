@@ -1,26 +1,26 @@
 package Location.Place;
+
 import Location.Location;
 import Characters.Character;
 import Characters.MagicalCreature.Lycanthrope;
-import Characters.Gallics.Gallic;
+import Characters.Roles.ClanChief;
 
-    public class Enclosure extends Location {
+public class Enclosure extends Location {
 
-        public Enclosure(String name, double area, Gallic clanChief) {
-            super(name, area, clanChief);
-        }
+    public Enclosure(String name, double area, ClanChief clanChief) {
+        super(name, area, clanChief);
+    }
 
-        @Override
-        public void addCharacter(Character character) {
-            if (character instanceof Lycanthrope) {
-                super.addCharacter(character);
-            } else {
-                System.out.println(character.getName() + " is not a creature and cannot enter the Enclosure!");
-            }
-        }
-
-        @Override
-        public String getType() {
-            return "Enclosure";
+    @Override
+    public void addCharacter(Character c) {
+        // Loup-Garou uniquement
+        if (c instanceof Lycanthrope) {
+            super.addCharacter(c);
+        } else {
+            System.out.println(c.getName() + " : Entrée refusée (Enclos réservé aux créatures).");
         }
     }
+
+    @Override
+    public String getType() { return "Enclos"; }
+}

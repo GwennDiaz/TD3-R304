@@ -1,21 +1,21 @@
 package Location.Place;
+
 import Characters.Character;
 import Location.Location;
-import Characters.Gallics.Gallic;
+import Characters.Roles.ClanChief;
 
 public class BattleField extends Location {
 
-    public BattleField(String name, double area, Gallic clanChief) {
+    public BattleField(String name, double area, ClanChief clanChief) {
         super(name, area, clanChief);
     }
 
     @Override
-    public void addCharacter(Character character) {
-        super.addCharacter(character);
+    public void addCharacter(Character c) {
+        // Aucune restriction
+        super.addCharacter(c);
     }
 
     @Override
-    public String getType() {
-        return "Battlefield";
-    }
+    public String getType() { return "Champ de Bataille"; }
 }

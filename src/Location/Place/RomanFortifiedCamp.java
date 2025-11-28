@@ -1,28 +1,30 @@
 package Location.Place;
+
 import Location.Location;
 import Characters.Character;
-import Characters.Romans.RomanSoldier;
+import Characters.Origin;
+import Characters.Romans.Legionnaire;
+import Characters.Romans.General;
 import Characters.MagicalCreature.Lycanthrope;
-import Characters.Gallics.Gallic;
+import Characters.Roles.ClanChief;
 
 public class RomanFortifiedCamp extends Location {
 
-    public RomanFortifiedCamp(String name, double area, Gallic clanChief) {
+    public RomanFortifiedCamp(String name, double area, ClanChief clanChief) {
         super(name, area, clanChief);
     }
 
     @Override
-    public void addCharacter(Character character) {
-        // Check if the character is specifically a Roman Soldier OR a Creature
-        if (character instanceof RomanSoldier || character instanceof Lycanthrope) {
-            super.addCharacter(character);
+    public void addCharacter(Character c) {
+        // Combattants Romains OU Loup OU Chef Romain
+        if (c instanceof Legionnaire || c instanceof General || c instanceof Lycanthrope ||
+                (c instanceof ClanChief && ((ClanChief) c).getOrigin() == Origin.ROMAN)) {
+            super.addCharacter(c);
         } else {
-            System.out.println(character.getName() + " cannot enter the Roman Camp (Soldiers only)!");
+            System.out.println(c.getName() + " : Entrée refusée (Camp Militaire Romain).");
         }
     }
 
     @Override
-    public String getType() {
-        return "Roman Fortified Camp";
-    }
+    public String getType() { return "Camp Romain"; }
 }
