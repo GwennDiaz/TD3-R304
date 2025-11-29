@@ -123,7 +123,7 @@ public abstract class Character {
         this.setHunger(max(0, this.hunger - quantity / 3));
     }
 
-    private void checkTrepas() {
+    public void checkTrepas() {
         if (this.health <= 0) {
             this.health = 0;
             trepasser();

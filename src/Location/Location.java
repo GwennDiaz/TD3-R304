@@ -107,4 +107,13 @@ public abstract class Location {
             }
         }
     }
+
+    @Override
+    public String toString() {
+        return String.format(
+                this.name,
+                this.getType(),
+                this.getNumberOfCharactersPresent()
+        );
+    }
 }
