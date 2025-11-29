@@ -1,11 +1,12 @@
 package Characters.Gallics;
 
+import Characters.*;
 import Characters.Character;
-import Characters.Gender;
 
+import static java.lang.Math.max;
 import static java.lang.Math.min;
 
-public class Druide extends Gallic {
+public class Druide extends Gallic implements Fighter, Leader, Worker {
     private int magicPower;
 
     public Druide(String name, Gender gender, double height, int age, int strength,
@@ -34,6 +35,14 @@ public class Druide extends Gallic {
         System.out.println(name + " heals " + target.getName() + " (+" + healing + " health)");
     }
 
+    public void concocterMarmite() {
+        System.out.println(name + " concocte une grande marmite de potion magique !");
+        System.out.println("La marmite bouillonne et dégage une fumée mystique...");
+        this.magicPotionLevel = 100;
+        setHunger(min(100, getHunger() + 20));
+        this.endurance = max(0, this.endurance - 15);
+    }
+
     public void gatherMistletoe() {
         System.out.println(name + " gathers sacred mistletoe with his golden sickle.");
         magicPower = min(100, magicPower + 5);
@@ -42,5 +51,23 @@ public class Druide extends Gallic {
     @Override
     public String getType() {
         return "Gallic Druid";
+    }
+
+    @Override
+    public void fight(Character adversaire) {
+        System.out.println(name + " combat " + adversaire.getName() + " avec sa magie !");
+        fight(adversaire);  // Utilise la méthode héritée de Personnage
+    }
+
+    @Override
+    public void work() {
+        System.out.println(name + " travaille en préparant des potions et en soignant.");
+        concocterMarmite();
+    }
+
+    @Override
+    public void lead() {
+        System.out.println(name + " dirige la communauté avec sa sagesse et sa magie.");
+        setBelligerence(max(0, getBelligerence() - 10));
     }
 }

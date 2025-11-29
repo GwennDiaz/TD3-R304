@@ -1,5 +1,5 @@
 package Characters;
 
 public enum Gender {
-    MASCULIN, FEMININ, troisFoisParSemaine
+    MASCULIN, FEMININ
 }

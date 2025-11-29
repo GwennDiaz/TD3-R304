@@ -2,10 +2,11 @@ package Characters.Gallics;
 
 import Characters.Character;
 import Characters.Gender;
+import Characters.Worker;
 
 import static java.lang.Math.max;
 
-public class Innkeeper extends Gallic {
+public class Innkeeper extends Gallic implements Worker {
     private int hostingCapacity;
     private int currentCustomers;
 
@@ -44,5 +45,12 @@ public class Innkeeper extends Gallic {
     @Override
     public String getType() {
         return "Gallic Innkeeper";
+    }
+
+    @Override
+    public void work() {
+        System.out.println(name + " travaille à l'auberge en servant les clients.");
+        setHunger(Math.min(100, getHunger() + 10));
+        this.endurance = Math.max(0, this.endurance - 8);
     }
 }

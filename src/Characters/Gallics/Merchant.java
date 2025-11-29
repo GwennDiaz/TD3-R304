@@ -1,8 +1,9 @@
 package Characters.Gallics;
 
 import Characters.Gender;
+import Characters.Worker;
 
-public class Merchant extends Gallic {
+public class Merchant extends Gallic implements Worker {
     private int money;
 
     public Merchant(String name, Gender gender, double height, int age, int strength,
@@ -39,5 +40,12 @@ public class Merchant extends Gallic {
     @Override
     public String getType() {
         return "Gallic Merchant";
+    }
+
+    @Override
+    public void work() {
+        System.out.println(name + " travaille en vendant ses marchandises.");
+        setHunger(Math.min(100, getHunger() + 15));
+        this.endurance = Math.max(0, this.endurance - 10);
     }
 }
