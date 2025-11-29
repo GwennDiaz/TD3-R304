@@ -60,14 +60,14 @@ public abstract class Character {
 
     public void fight (Character opponent){
         if (this.health <= 0){
-            System.out.println(name + "est mort");
+            System.out.println(name + "is dead");
             return;
         }
         if(opponent.getHealth() <= 0){
-            System.out.println(name + "est mort");
+            System.out.println(name + "is dead");
             return;
         }
-        System.out.println(name + "se bat contre " + opponent.getName());
+        System.out.println(name + " fights against " + opponent.getName());
 
         int damageInflicted = (this.strength * (100 - opponent.getEndurance())) / 100;
         int damageReceived = (opponent.getStrength() * (100 - this.endurance)) / 1000;
@@ -75,8 +75,8 @@ public abstract class Character {
         opponent.setHealth(opponent.getHealth() - damageInflicted);
         this.health -= damageReceived;
 
-        System.out.println(name + " inflige " + damageInflicted + " dégâts à " + opponent.getName());
-        System.out.println(opponent.getName() + " inflige " + damageReceived + " dégâts à " + name);
+        System.out.println(name + " inflicts " + damageInflicted + " damage to " + opponent.getName());
+        System.out.println(opponent.getName() + " inflicts " + damageReceived + " damage to " + name);
 
         this.setBelligerence(min(100, this.belligerence + 10));
         opponent.setBelligerence(Math.min(100, opponent.getBelligerence() + 10));
@@ -88,37 +88,37 @@ public abstract class Character {
 
     public void cure(int careAmount) {
         if (this.health <= 0) {
-            System.out.println(name + " est mort et ne peut plus être soigné !");
+            System.out.println(name + " He is dead and can no longer be treated! ");
             return;
         }
 
         int oldHealth = this.health;
         this.setHealth(this.health + careAmount);
-        System.out.println(name + " est soigné de " + careAmount + " points (Santé: " + oldHealth + " -> " + this.health + ")");
+        System.out.println(name + " is treated with " + careAmount + " points (Healt: " + oldHealth + " -> " + this.health + ")");
     }
 
     public void eat(int quantity) {
         if (this.health <= 0) {
-            System.out.println(name + " est mort et ne peut pas manger !");
+            System.out.println(name + " is dead and cant eat !");
             return;
         }
 
         int ancienneFaim = this.hunger;
         this.setHunger(this.hunger - quantity);
-        System.out.println(name + " mange et réduit sa faim de " + quantity + " points (Faim: " + ancienneFaim + " -> " + this.hunger + ")");
+        System.out.println(name + " eats and reduces his hunger by " + quantity + " points (Hunge: " + ancienneFaim + " -> " + this.hunger + ")");
     }
 
     public void drinkMagicPotion(int quantity) {
         if (this.health <= 0) {
-            System.out.println(name + " est mort et ne peut pas boire de potion !");
+            System.out.println(name + " is dead and cant drink potion!");
             return;
         }
 
         int ancienNiveau = this.magicPotionLevel;
         this.setMagicPotionLevel(this.magicPotionLevel + quantity);
-        System.out.println(name + " boit une potion magique (+" + quantity + " points) (Niveau: " + ancienNiveau + " -> " + this.magicPotionLevel + ")");
+        System.out.println(name + " drinks a magic potion (+" + quantity + " points) (Level: " + ancienNiveau + " -> " + this.magicPotionLevel + ")");
 
-        // Bonus : la potion magique restaure un peu de santé et réduit la faim
+        // The magic potion restores some health and reduces hunger.
         this.cure(quantity / 2);
         this.setHunger(max(0, this.hunger - quantity / 3));
     }
@@ -131,7 +131,7 @@ public abstract class Character {
     }
 
     public void trepasser() {
-        System.out.println(name + " (" + getType() + ") trépasse... RIP");
+        System.out.println(name + " (" + getType() + ") dies... RIP");
         this.health = 0;
         this.belligerence = 0;
     }
