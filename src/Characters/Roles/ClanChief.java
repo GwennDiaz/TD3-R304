@@ -15,19 +15,18 @@ import java.util.Scanner;
 
 public class ClanChief extends Character {
     private Location myLocation;
-    private Origin origin; // La nationalité du chef
+    private Origin origin; // Chief Nationality
 
-    // --- CORRECTION 1 : Ajout de Origin dans le constructeur ---
+    // constructor
     public ClanChief(String name, Gender gender, double height, int age, int strength,
                      int endurance, int health, int hunger, int belligerence,
                      int magicPotionLevel, Location location, Origin origin) {
 
         super(name, gender, height, age, strength, endurance, health, hunger, belligerence, magicPotionLevel);
         this.myLocation = location;
-        this.origin = origin; // On sauvegarde l'origine ici !
+        this.origin = origin; // save origin here
     }
 
-    // --- CORRECTION 2 : Ajout du Getter (Indispensable pour Location) ---
     public Origin getOrigin() {
         return origin;
     }
@@ -36,27 +35,23 @@ public class ClanChief extends Character {
         this.myLocation = location;
     }
 
-    // ============================================================
-    //                      MENU INTERACTIF
-    // ============================================================
-
+    // MENU INTERACTIF
     public void openActionMenu(Scanner scanner, List<Location> worldLocations) {
         boolean stayInMenu = true;
 
         while (stayInMenu) {
-            System.out.println("\n==========================================");
-            System.out.println("ORDRES DU CHEF " + this.name.toUpperCase() + " (" + origin + ")");
-            System.out.println("Lieu actuel : " + (myLocation != null ? myLocation.getName() : "Aucun"));
-            System.out.println("==========================================");
-            System.out.println("1. Examiner le lieu");
-            System.out.println("2. Soigner tout le monde");
-            System.out.println("3. Nourrir tout le monde (Festin)");
-            System.out.println("4. Recruter un nouveau personnage");
-            System.out.println("5. Demander potion au Druide");
-            System.out.println("6. Faire boire potion à quelqu'un");
-            System.out.println("7. Transférer un personnage");
-            System.out.println("0. Quitter");
-            System.out.print("Votre choix : ");
+            System.out.println("\n--------------------------------------");
+            System.out.println("CHIEF ORDER " + this.name.toUpperCase() + " (" + origin + ")");
+            System.out.println("Current location : " + (myLocation != null ? myLocation.getName() : "None"));
+            System.out.println("\n 1. Examine the location");
+            System.out.println("2. Treat everyone");
+            System.out.println("3. Feed everyone (Feast)");
+            System.out.println("4. Recruit a new character");
+            System.out.println("5. Ask the Druid for a potion");
+            System.out.println("6. Give someone a potion");
+            System.out.println("7. Transfer character");
+            System.out.println("0. Quit");
+            System.out.print("Your choise : ");
 
             if (scanner.hasNextInt()) {
                 int choice = scanner.nextInt();
@@ -70,26 +65,57 @@ public class ClanChief extends Character {
                     case 5: handlePotionRequest(scanner); break;
                     case 6: handleGivePotion(scanner); break;
                     case 7: handleTransfer(scanner, worldLocations); break;
-                    case 0: stayInMenu = false; System.out.println("Fin des ordres."); break;
-                    default: System.out.println("Choix invalide.");
+                    case 0: stayInMenu = false; System.out.println("End of orders."); break;
+                    default: System.out.println("Invalid choice.");
                 }
             } else {
-                System.out.println("Veuillez entrer un chiffre.");
+                System.out.println("Please enter a number.");
                 scanner.next();
             }
         }
     }
 
-    // --- Méthodes Internes ---
+    // -Internal Methods
 
-    // Version améliorée pour choisir le type de recrue
+    // Method for selecting a character by name
+    private Character selectCharacter(Scanner scanner) {
+        if (myLocation == null || myLocation.getPresentCharacters().isEmpty()) {
+            System.out.println("There's nobody here!");
+            return null;
+        }
+
+        System.out.println("-Choose your character here.");
+        List<Character> population = myLocation.getPresentCharacters();
+
+        // Displays the list: 0. Asterix, 1. Obelix....
+        for (int i = 0; i < population.size(); i++) {
+            Character c = population.get(i);
+            System.out.println(i + ". " + c.getName() + " (Health: " + c.getHealth() + ")");
+        }
+        System.out.print("Enter the number of the character you would like to choose: ");
+
+        if (scanner.hasNextInt()) {
+            int index = scanner.nextInt();
+            scanner.nextLine(); // is used to consume the player's entry
+
+            if (index >= 0 && index < population.size()) {
+                return population.get(index); // Return the chosen character
+            }
+        } else {
+            scanner.next(); // Clear the incorrect entry
+        }
+
+        System.out.println("Invalid number.");
+        return null;
+    }
+
     private void createNewCharacterInteraction(Scanner scanner) {
         if (myLocation == null) return;
 
-        System.out.print("Nom de la recrue : ");
+        System.out.print("Recruit's name: ");
         String name = scanner.nextLine();
 
-        System.out.println("Type ? 1. Légionnaire (Romain)  2. Forgeron (Gaulois)");
+        System.out.println("Type? 1. Legionary (Roman) 2. Blacksmith (Gaul)");
         int type = 0;
         if(scanner.hasNextInt()) {
             type = scanner.nextInt();
@@ -104,7 +130,7 @@ public class ClanChief extends Character {
         }
 
         recruitCharacter(newChar);
-        System.out.println(name + " a rejoint les rangs !");
+        System.out.println(name + " has joined the ranks!");
     }
 
     private void handlePotionRequest(Scanner scanner) {
@@ -117,13 +143,12 @@ public class ClanChief extends Character {
         }
 
         if (localDruid == null) {
-            System.out.println("Il n'y a pas de Druide ici !");
+            System.out.println("There are no Druids here !");
             return;
         }
 
-        System.out.println("Pour qui est la potion ? (Nom)");
-        String targetName = scanner.nextLine();
-        Character target = findCharacterByName(targetName);
+        System.out.println("Who is the potion for? (Name)");
+        Character target = selectCharacter(scanner);
 
         if (target != null) {
             askDruidForPotion(localDruid, target, 20);
@@ -131,22 +156,20 @@ public class ClanChief extends Character {
     }
 
     private void handleGivePotion(Scanner scanner) {
-        System.out.println("Qui doit boire ? (Nom)");
-        String name = scanner.nextLine();
-        Character target = findCharacterByName(name);
+        System.out.println("Who should drink? (Name)");
+        Character target = selectCharacter(scanner);
         if (target != null) {
             target.drinkMagicPotion(10);
         }
     }
 
     private void handleTransfer(Scanner scanner, List<Location> worldLocations) {
-        System.out.println("Qui transférer ? (Nom)");
-        String charName = scanner.nextLine();
-        Character traveler = findCharacterByName(charName);
+        System.out.println("Who should transfer ? (Name");
+        Character traveler = selectCharacter(scanner);
 
         if (traveler == null) return;
 
-        System.out.println("Vers où ? (ID)");
+        System.out.println("Towards where ? (ID)");
         for (int i = 0; i < worldLocations.size(); i++) {
             Location loc = worldLocations.get(i);
             if (loc instanceof BattleField || loc instanceof Enclosure) {
@@ -160,29 +183,16 @@ public class ClanChief extends Character {
             if (destIndex >= 0 && destIndex < worldLocations.size()) {
                 transferCharacter(traveler, worldLocations.get(destIndex));
             } else {
-                System.out.println("Destination invalide.");
+                System.out.println("Invalid destination.");
             }
         }
     }
 
-    private Character findCharacterByName(String name) {
-        if (myLocation == null) return null;
-        for (Character c : myLocation.getPresentCharacters()) {
-            if (c.getName().equalsIgnoreCase(name)) {
-                return c;
-            }
-        }
-        System.out.println("Personnage introuvable ici.");
-        return null;
-    }
-
-    // ============================================================
-    //                   ACTIONS LOGIQUES
-    // ============================================================
+    // -LOGICAL ACTIONS
 
     public void examineLocation() {
         if (myLocation != null) myLocation.printStatus();
-        else System.out.println(this.name + " n'a pas de lieu !");
+        else System.out.println(this.name + " has no place!");
     }
 
     public void recruitCharacter(Character newCharacter) {
@@ -191,41 +201,41 @@ public class ClanChief extends Character {
 
     public void orderHealing() {
         if (myLocation != null) {
-            System.out.println(this.name + " ordonne de soigner tout le monde !");
+            System.out.println(this.name + " orders everyone to be treated!");
             myLocation.healAllCharacters();
         }
     }
 
     public void orderFeast() {
         if (myLocation != null) {
-            System.out.println(this.name + " ordonne un festin !");
+            System.out.println(this.name + " order a feast!");
             myLocation.feedAllCharacters();
         }
     }
 
     public void askDruidForPotion(Druid druid, Character target, int quantity) {
-        System.out.println(this.name + " demande une potion à " + druid.getName());
+        System.out.println(this.name + " give a potion to " + druid.getName());
         druid.preparePotion(target, quantity);
     }
 
     public void transferCharacter(Character character, Location destination) {
         if (!myLocation.getPresentCharacters().contains(character)) {
-            System.out.println(character.getName() + " n'est pas ici.");
+            System.out.println(character.getName() + " is not here.");
             return;
         }
 
         if ((destination instanceof BattleField) || (destination instanceof Enclosure)) {
-            System.out.println("Transfert de " + character.getName() + " vers " + destination.getName());
+            System.out.println("Transfer of " + character.getName() + " towards " + destination.getName());
             myLocation.removeCharacter(character);
             destination.addCharacter(character);
         } else {
-            System.out.println("Le chef ne peut envoyer que vers un Champ de Bataille ou un Enclos.");
+            System.out.println("The leader can only send to a Battlefield or an Enclosure.");
         }
     }
 
     @Override
     public String getType() {
-        // Affiche dynamiquement le type selon l'origine
-        return (origin == Origin.ROMAN) ? "Chef Romain" : "Chef Gaulois";
+        // Displays the type based on the origin
+        return (origin == Origin.ROMAN) ? "Roman Chief": "Gallic Chief";
     }
 }
