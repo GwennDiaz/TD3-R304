@@ -1,10 +1,13 @@
 package Characters.Romans;
 
+import Characters.Character;
+import Characters.Fighter;
 import Characters.Gender;
+import Characters.Leader;
 
 import static java.lang.Math.min;
 
-public class General extends Roman {
+public class General extends Roman implements Fighter, Leader {
     private int victoryCount;
     private int soldierCount;
     private int popularity = 50;
@@ -53,5 +56,21 @@ public class General extends Roman {
     @Override
     public String getType() {
         return "Roman General";
+    }
+
+    @Override
+    public void fight(Character adversaire) {
+        System.out.println("Le Général " + name + " combat personnellement contre " + adversaire.getName());
+        fight(adversaire);  // Utilise la méthode héritée de Personnage
+
+        // Bonus : si le Général gagne, il remporte une victoire
+        if (!isDead() && adversaire.isDead()) {
+            winVictory();
+        }
+    }
+
+    @Override
+    public void lead() {
+        System.out.println(name + " dirige ses armées avec stratégie et courage.");
     }
 }

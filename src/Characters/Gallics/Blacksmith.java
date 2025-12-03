@@ -1,11 +1,12 @@
 package Characters.Gallics;
 
 import Characters.Gender;
+import Characters.Worker;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
-public class Blacksmith extends Gallic {
+public class Blacksmith extends Gallic implements Worker {
     private int weaponQuality; // 0-100
 
     public Blacksmith(String name, Gender gender, double height, int age, int strength,
@@ -34,5 +35,11 @@ public class Blacksmith extends Gallic {
     @Override
     public String getType() {
         return "Gallic Blacksmith";
+    }
+
+    @Override
+    public void work() {
+        System.out.println(name + " travaille à la forge en créant des armes.");
+        forgeWeapon();
     }
 }

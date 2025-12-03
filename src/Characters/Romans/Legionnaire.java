@@ -6,7 +6,7 @@ import Characters.Gender;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
-public class Legionnaire extends Roman {
+public abstract class Legionnaire extends Roman {
     private String legion;
     private boolean enService;
 
@@ -43,7 +43,7 @@ public class Legionnaire extends Roman {
     }
 
     public void combattre(Character adversaire) {
-        System.out.println(name + " combat contre " + adversaire.getName() + " !");
+        System.out.println(name + " combat contre " + adversaire.getName());
         int degats = this.strength / 10;
         adversaire.setHealth(max(0, adversaire.getHealth() - degats));
         setBelligerence(min(100, getBelligerence() + 10));
@@ -59,5 +59,11 @@ public class Legionnaire extends Roman {
     @Override
     public String getType() {
         return "Légionnaire Romain";
+    }
+
+    @Override
+    public void fight(Character adversaire) {
+        System.out.println(name + " de la " + legion + " combat contre " + adversaire.getName());
+        fight(adversaire);
     }
 }

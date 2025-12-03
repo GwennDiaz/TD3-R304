@@ -110,4 +110,17 @@ public class Lycanthrope extends Character {
         String forme = humanForm ? "Forme humaine" : "Forme loup-garou";
         return super.toString() + "\n" + forme;
     }
+
+    @Override
+    public void fight(Character adversaire) {
+        if (!humanForm) {
+            // En forme loup-garou : attaque puissante avec rage
+            System.out.println(name + " attaque " + adversaire.getName() + " avec rage en forme de loup-garou !");
+            attaquerAvecRage(adversaire);
+        } else {
+            // En forme humaine : combat normal
+            System.out.println(name + " combat " + adversaire.getName() + " sous forme humaine.");
+            fight(adversaire);  // Utilise la méthode héritée de Personnage
+        }
+    }
 }

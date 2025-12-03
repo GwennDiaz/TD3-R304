@@ -1,10 +1,11 @@
 package Characters.Romans;
 
 import Characters.Gender;
+import Characters.Leader;
 
 import static java.lang.Math.min;
 
-public class Prefect extends Roman {
+public class Prefect extends Roman implements Leader {
     private String province;
     private int popularity; // 0-100
 
@@ -47,5 +48,11 @@ public class Prefect extends Roman {
     @Override
     public String getType() {
         return "Roman Prefect";
+    }
+
+    @Override
+    public void lead() {
+        System.out.println(name + " dirige la province de " + province + " avec autorité.");
+        administerProvince();
     }
 }
