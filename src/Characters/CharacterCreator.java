@@ -1,7 +1,7 @@
 package Characters;
 
 import Characters.Gallics.Blacksmith;
-import Characters.Gallics.Druide;
+import Characters.Gallics.Druid;
 import Characters.Gallics.Innkeeper;
 import Characters.Gallics.Merchant;
 import Characters.MagicalCreature.Lycanthrope;
@@ -38,7 +38,7 @@ public class CharacterCreator implements Runnable {
             Thread.sleep(random.nextInt(500) + 200);
 
             // Génération des caractéristiques aléatoires
-            Gender gender = random.nextBoolean() ? Gender.MASCULIN : Gender.FEMININ;
+            Gender gender = random.nextBoolean() ? Gender.MALE : Gender.FEMALE;
             double height = 1.50 + random.nextDouble() * 0.50; // Entre 1.50m et 2.00m
             int age = 20 + random.nextInt(60); // Entre 20 et 80 ans
             int strength = 40 + random.nextInt(60); // Entre 40 et 100
@@ -72,7 +72,7 @@ public class CharacterCreator implements Runnable {
 
                 case "druide":
                     int magicPower = 70 + random.nextInt(30);
-                    character = new Druide(name, gender, height, age, strength, endurance,
+                    character = new Druid(name, gender, height, age, strength, endurance,
                             health, hunger, belligerence, magicPotionLevel, magicPower);
                     break;
 
