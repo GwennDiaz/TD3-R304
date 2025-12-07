@@ -6,6 +6,6 @@ import Consommable.Freshness;
 
 public class Boar extends FoodItem {
     public Boar() {
-        super(FoodCategory.MEAT, Freshness.FRESH , "Boar",50, 15);
+        super(FoodCategory.MEAT, Freshness.FRESH , "Boar",+50, +15);
     }
 }

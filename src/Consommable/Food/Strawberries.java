@@ -1,15 +1,11 @@
 package Consommable.Food;
 
+import Consommable.FoodItem;
+import Consommable.Freshness;
 import Consommable.FoodCategory;
 
-import static Consommable.FoodCategory.INGREDIENT;
-import static Consommable.FoodCategory.VEGETABLE;
-
-public class Strawberries {
-    private int hungerRestore=15;
-    private int healthDelta=+5;
-    private FoodCategory category = VEGETABLE;
-    private FoodCategory category2 = INGREDIENT;
-
-
+public class Strawberries extends FoodItem {
+    public Strawberries() {
+        super(FoodCategory.VEGETABLE, FoodCategory.INGREDIENT, Freshness.STALE , "Strawberries",+15, +5);
+    }
 }

@@ -1,14 +1,11 @@
 package Consommable.Liquid;
 
+import Consommable.FoodItem;
+import Consommable.Freshness;
 import Consommable.FoodCategory;
 
-import static Consommable.FoodCategory.INGREDIENT;
-import static Consommable.FoodCategory.VEGETABLE;
-
-public class BeetrootJuice {
-    private int hungerRestore=10;
-    private int healthDelta=+2;
-    private FoodCategory category =VEGETABLE;
-    private FoodCategory category2 = INGREDIENT;
-
+public class BeetrootJuice extends FoodItem {
+    public BeetrootJuice() {
+        super(FoodCategory.VEGETABLE, FoodCategory.INGREDIENT, Freshness.FRESH , "BeetrootJuice",+10, +2);
+    }
 }

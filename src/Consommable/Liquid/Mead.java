@@ -14,3 +14,4 @@ public class Mead {
     private FoodCategory category2 = ALCOHOL;
     private FoodCategory category3 = INGREDIENT;
 }
+

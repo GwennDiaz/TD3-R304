@@ -6,6 +6,6 @@ import Consommable.FoodCategory;
 
 public class FairlyFreshFish extends FoodItem {
     public FairlyFreshFish() {
-        super(FoodCategory.FISH, FoodCategory.INGREDIENT, Freshness.FAIRLYFRESH , "FairlyFreshFish",15, 0);
+        super(FoodCategory.FISH, FoodCategory.INGREDIENT, Freshness.FAIRLYFRESH , "FairlyFreshFish",+15, 0);
     }
 }
