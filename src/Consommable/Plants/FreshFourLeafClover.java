@@ -1,14 +1,11 @@
 package Consommable.Plants;
 
-import Consommable.FoodCategory;
+import Consommable.FoodItem;
 import Consommable.Freshness;
+import static Consommable.FoodCategory.*;
 
-import static Consommable.FoodCategory.INGREDIENT;
-import static Consommable.FoodCategory.VEGETABLE;
-import static Consommable.Freshness.FRESH;
-
-public class FreshFourLeafClover {
-    private FoodCategory category = INGREDIENT;
-    private FoodCategory category2 = VEGETABLE;
-    private Freshness Fresh = FRESH;
+public class FreshFourLeafClover extends FoodItem {
+    public FreshFourLeafClover() {
+        super("FreshFourLeafClover", Freshness.FRESH, 5, 5, 0, 0, 0, VEGETABLE, INGREDIENT);
+    }
 }

@@ -2,10 +2,10 @@ package Consommable.Food;
 
 import Consommable.FoodItem;
 import Consommable.Freshness;
-import Consommable.FoodCategory;
+import static Consommable.FoodCategory.*;
 
 public class StaleFish extends FoodItem {
     public StaleFish() {
-        super(FoodCategory.FISH, Freshness.STALE , "StaleFish",+10, -10);
+        super("StaleFish", Freshness.STALE, 10, -10, 0, 0, 0, FISH);
     }
 }

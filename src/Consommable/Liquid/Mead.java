@@ -1,17 +1,10 @@
 package Consommable.Liquid;
 
-import Consommable.FoodCategory;
-
+import Consommable.FoodItem;
 import static Consommable.FoodCategory.*;
 
-public class Mead {
-    private int hungerRestore=10;
-    private int healthDelta=+3;
-    private int belligerence=+2;
-    private int strengthDelta=-2;
-    private int enduranceDelta=+5;
-    private FoodCategory category = DRINK;
-    private FoodCategory category2 = ALCOHOL;
-    private FoodCategory category3 = INGREDIENT;
+public class Mead extends FoodItem {
+    public Mead() {
+        super("Mead", null, 10, 2, 2, -2, 5, DRINK, ALCOHOL, INGREDIENT);
+    }
 }
-

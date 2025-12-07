@@ -1,12 +1,10 @@
 package Consommable.Plants;
 
-import Consommable.FoodCategory;
-import Consommable.Freshness;
+import Consommable.FoodItem;
+import static Consommable.FoodCategory.*;
 
-import static Consommable.FoodCategory.INGREDIENT;
-import static Consommable.FoodCategory.VEGETABLE;
-
-public class Mistletoe {
-    private FoodCategory category = INGREDIENT;
-    private FoodCategory category2 = VEGETABLE;
+public class Mistletoe extends FoodItem {
+    public Mistletoe() {
+        super("Mistletoe", null, 0, 0, 0, 0, 0, VEGETABLE, INGREDIENT);
+    }
 }
