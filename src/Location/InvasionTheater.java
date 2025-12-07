@@ -1,5 +1,5 @@
 package Location;
-
+import Interface.Game;
 import Characters.Character;
 import Characters.Gallics.Druid;
 import Characters.Gender;
@@ -21,6 +21,7 @@ public class InvasionTheater {
     private int maxPlace;
     private List<Location> places; //
     private List<ClanChief> chefs;
+    private int turn = 1;
 
     private  final Random random = new Random();
     private  final Scanner scanner = new Scanner(System.in);
@@ -77,6 +78,23 @@ public class InvasionTheater {
         this.chefs = new ArrayList<>();
     }
 
+    public void executeOneTurn() {
+        System.out.println("--- DÉBUT DU TOUR "+turn);
+
+        handleBattles();
+        handleRandomEvents();
+        handleResources();
+
+        turn++;
+    }
+    public List<Location> getPlaces() {
+        return places;
+    }
+
+    public int getTurn() {
+        return turn;
+    }
+
     public void showPlace() {
         for (Location location : places) {
             System.out.println("-" + location.getName() + "\n");
@@ -102,27 +120,6 @@ public class InvasionTheater {
                 for (Character c : population) {
                     System.out.println("  - " + c.getName()); //c.toString -> other solution
                 }
-            }
-        }
-    }
-
-
-    public void simulationLoop(){
-        boolean running = true;
-        int turn = 1;
-
-        while (running) {
-            System.out.println("\n---TURN " + turn + ":");
-
-            handleBattles();       //Auto-combat
-            handleRandomEvents();  //Hunger/Potions
-            handleResources();     //Food spawn
-            handleChiefsTurn();    //User input
-
-            turn++;
-            System.out.print("\n Continue simulation? (y/n): ");
-            if (scanner.next().equalsIgnoreCase("n")) {
-                running = false;
             }
         }
     }
@@ -204,7 +201,9 @@ public class InvasionTheater {
     public static void main(String[] args) {
         InvasionTheater theater = new InvasionTheater("Gaule -50 av. JC");
         theater.Initialize();
-        theater.simulationLoop();
+        javax.swing.SwingUtilities.invokeLater(() -> {
+            new Game(theater).setVisible(true);
+        });
     }
 
 
