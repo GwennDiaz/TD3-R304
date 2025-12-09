@@ -1,8 +1,7 @@
 package Characters.Roles;
 
+import Characters.*;
 import Characters.Character;
-import Characters.Gender;
-import Characters.Origin; // Important
 import Location.*;
 import Characters.Gallics.Druid; // Assure-toi que c'est Druid ou Druide selon ton fichier
 import Characters.Gallics.Blacksmith;
@@ -108,29 +107,54 @@ public class ClanChief extends Character {
         System.out.println("Invalid number.");
         return null;
     }
-
     private void createNewCharacterInteraction(Scanner scanner) {
-        if (myLocation == null) return;
-
-        System.out.print("Recruit's name: ");
-        String name = scanner.nextLine();
-
-        System.out.println("Type? 1. Legionary (Roman) 2. Blacksmith (Gaul)");
-        int type = 0;
-        if(scanner.hasNextInt()) {
-            type = scanner.nextInt();
-            scanner.nextLine();
+        if (myLocation == null) {
+            System.out.println("Impossible to recruit: You're nowhere to be found!");
+            return;
         }
 
-        Character newChar;
-        if (type == 1) {
-            newChar = new Legionnaire(name, Gender.MALE, 1.80, 25, 60, 50, 100, 0, 10, 0, "I");
+        System.out.println("What type of character should you recruit?");
+        System.out.println("1. Legionnaire  2. Blacksmith  3. Druid  4. Merchant");
+
+        String type = "";
+        String name = "";
+
+        if (scanner.hasNextInt()) {
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Use the carriage return
+
+            switch (choice) {
+                case 1: type = "Legionnaire"; break;
+                case 2: type = "Blacksmith"; break;
+                case 3: type = "Druid"; break;
+                case 4: type = "Merchant"; break;
+                default: System.out.println("Invalid type."); return;
+            }
+
+            // Using NameRepository to get a name automatically
+            System.out.println("Enter a name (or type ‘auto’ for a random name):");
+            String inputName = scanner.nextLine();
+            if (inputName.equalsIgnoreCase("auto")) {
+                name = NameRepository.getNameByType(type);
+            } else {
+                name = inputName;
+            }
+
+            //THREADS
+            // We pick people up at their current location. List that the Thread will modify once completed.
+            List<Character> populationDuLieu = myLocation.getPresentCharacters();
+            CharacterCreator task = new CharacterCreator(name, type, populationDuLieu);
+
+            // Creating the Thread and Launching
+            Thread recruitmentThread = new Thread(task);
+            recruitmentThread.start();
+
+            System.out.println("Order given! " + name + " has left for training. He will arrive soon...");
+
         } else {
-            newChar = new Blacksmith(name, Gender.MALE, 1.70, 40, 70, 60, 100, 0, 0, 0, 50);
+            System.out.println("Invalid entry.");
+            scanner.next();
         }
-
-        recruitCharacter(newChar);
-        System.out.println(name + " has joined the ranks!");
     }
 
     private void handlePotionRequest(Scanner scanner) {
