@@ -7,14 +7,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import static java.lang.Math.max;
+import java.util.concurrent.CopyOnWriteArrayList;
+import Consommable.Potion.Potion;
 
 public abstract class Location {
     protected String name;
     protected double area;
     protected ClanChief clanChief;
-    protected List<Character> presentCharacters;
-    protected List<FoodItem> presentFood;
+    protected List<Character> presentCharacters = new CopyOnWriteArrayList<>();    protected List<FoodItem> presentFood;
     protected Environment environment;
+    protected Potion marmite;
 
     public Location(String name, double area, ClanChief clanChief) {
         this.name = name;
@@ -33,13 +35,19 @@ public abstract class Location {
     public List<FoodItem> getPresentFood() { return presentFood; }
     public abstract String getType();
     public int getNumberOfCharactersPresent() { return presentCharacters.size(); }
+    public Potion getMarmite() {return this.marmite;}
 
     // --- SETTERS
     public void setArea(double area) { this.area = max(0, area); }
     public void setClanChief(ClanChief clanChief) { this.clanChief = clanChief; }
     public void setEnvironment(Environment env) { this.environment = env; }
+    public void setMarmite(Potion p) {this.marmite = p;}
 
     // --- METHODS
+    public boolean hasPotion() {
+        return this.marmite != null;
+    }
+
     public void addCharacter(Character c) {
         this.presentCharacters.add(c);
         System.out.println(c.getName() + " entered into " + this.name);

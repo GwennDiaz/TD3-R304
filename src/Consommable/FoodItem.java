@@ -27,6 +27,14 @@ public class FoodItem {
         this.categories = new ArrayList<>(Arrays.asList(cats));
     }
 
+    //---GETTER
+    public int getHungerLevel() { return hungerLevel; }
+    public int getHealthDelta() { return healthDelta; }
+    public int getBelligerence() { return belligerence; }
+    public int getStrengthDelta() { return strengthDelta; }
+    public int getEnduranceDelta() { return enduranceDelta; }
+
+
     public String getName() {
         return name;
     }
@@ -38,6 +46,10 @@ public class FoodItem {
     // Necessary for the vegetable rule
     public List<FoodCategory> getCategories() {
         return categories;
+    }
+
+    public boolean hasCategory(FoodCategory cat) {
+        return categories.contains(cat);
     }
 
     public void rot(){

@@ -1,5 +1,8 @@
 package Characters;
 
+import Consommable.FoodCategory;
+import Consommable.FoodItem;
+
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
@@ -115,16 +118,21 @@ public abstract class Character {
 
         System.out.println(name + " eats " + food.getName());
 
-        // Réduction de la faim (valeur par défaut arbitraire de 20 ici)
+        // Hunger reduction (arbitrary default value of 20 here)
         setHunger(max(0, this.hunger - 20));
 
-        // Règle : Poisson pas frais = Mauvais pour la santé
+        // Rule: Fish that is not fresh = Bad for your health
         if (!food.isFresh()) {
             System.out.println("Yuck! It's not fresh! (-10 Health)");
-            setHealth(this.health - 10);
+            this.setHealth(this.health - 10);
+        } else {
+            // Fresh food
+            this.setHunger(this.hunger - food.getHungerLevel());
+            this.setHealth(this.health + food.getHealthDelta());
+            this.setBelligerence(this.belligerence + food.getBelligerence());
         }
 
-        // Règle : Légumes consécutifs = Mauvais pour la santé
+        // Rule: Consecutive vegetables = Bad for your health
         boolean isVegetable = food.getCategories().contains(FoodCategory.VEGETABLE);
 
         if (isVegetable) {

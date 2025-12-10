@@ -37,11 +37,6 @@ public class RomanFortifiedCamp extends Location {
             System.out.println(c.getName() + " : Entrée refusée (Camp Militaire Romain).");
         }
     }
-    @Override
-    public boolean canEnter(Character c) {
-        // Accepts Roman in the fortification
-        return c instanceof Characters.Romans.Roman;
-    }
 
     @Override
     public boolean canEnter(Character c) {

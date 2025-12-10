@@ -21,6 +21,10 @@ public class Enclosure extends Location {
         }
     }
 
+    public boolean canEnter(Characters.Character c) {
+        return c instanceof Characters.Gallics.Gallic || c instanceof Characters.Romans.Roman || c instanceof Characters.MagicalCreature.Lycanthrope.Lycanthrope ;
+    }
+
     @Override
     public String getType() { return "Enclos"; }
 }

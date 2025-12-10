@@ -27,6 +27,31 @@ public class Druid extends Gallic implements Fighter, Leader, Worker {
         return magicPower;
     }
 
+    public void concocterMarmite(Location lieu) {
+        System.out.println(name + " light the fire under the cauldron...");
+
+        // Define the “Superhuman Strength” effect
+        // Health=0, Hunger=-20, Belligerence=+50, Magic=+100
+        PotionsEffect effet = new PotionsEffect(0, -20, 50, 100, "Force Surhumaine");
+
+        //Create the Potion object
+        Potion laMarmite = new Potion(
+                "magic Potion",
+                Arrays.asList("Gui", "Carottes", "Sel", "Homard"),
+                effet,
+                10 // One pot = 10 servings
+        );
+
+        //Place the pot in the location
+        if (lieu != null) {
+            lieu.setMarmite(laMarmite);
+            System.out.println("✨ " + name + " It's done! A steaming pot awaits in the center of " + lieu.getName());
+        }
+
+        // Tired
+        this.endurance = Math.max(0, this.endurance - 20);
+    }
+
     public void preparePotion(Character target, int quantity) {
         if (magicPower >= 10) {
             target.setMagicPotionLevel(target.getMagicPotionLevel() + quantity);
@@ -108,10 +133,10 @@ public class Druid extends Gallic implements Fighter, Leader, Worker {
     @Override
     public void work() {
         System.out.println(name + " works on potions and healing.");
-        // Note: Actual brewing requires a location context, simplified here
+        gatherMistletoe();
         magicPower = min(100, magicPower + 10);
+        this.endurance = max(0, this.endurance - 5);
         System.out.println(name + " works by preparing potions and healing.");
-        concocterMarmite();
     }
 
     @Override

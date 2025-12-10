@@ -44,11 +44,10 @@ public class ClanChief extends Character {
             System.out.println("Current location : " + (myLocation != null ? myLocation.getName() : "None"));
             System.out.println("\n 1. Examine the location");
             System.out.println("2. Treat everyone");
-            System.out.println("3. Feed everyone (Feast)");
-            System.out.println("4. Recruit a new character");
-            System.out.println("5. Ask the Druid for a potion");
-            System.out.println("6. Give someone a potion");
-            System.out.println("7. Transfer character");
+            System.out.println("3. Recruit a new character");
+            System.out.println("4. Ask the Druid for a potion");
+            System.out.println("5. Give someone a potion");
+            System.out.println("6. Transfer character");
             System.out.println("0. Quit");
             System.out.print("Your choise : ");
 
@@ -59,11 +58,10 @@ public class ClanChief extends Character {
                 switch (choice) {
                     case 1: examineLocation(); break;
                     case 2: orderHealing(); break;
-                    case 3: orderFeast(); break;
-                    case 4: createNewCharacterInteraction(scanner); break; // Méthode améliorée
-                    case 5: handlePotionRequest(scanner); break;
-                    case 6: handleGivePotion(scanner); break;
-                    case 7: handleTransfer(scanner, worldLocations); break;
+                    case 3: createNewCharacterInteraction(scanner); break; // Méthode améliorée
+                    case 4: handlePotionRequest(scanner); break;
+                    case 5: handleGivePotion(scanner); break;
+                    case 6: handleTransfer(scanner, worldLocations); break;
                     case 0: stayInMenu = false; System.out.println("End of orders."); break;
                     default: System.out.println("Invalid choice.");
                 }
@@ -227,13 +225,6 @@ public class ClanChief extends Character {
         if (myLocation != null) {
             System.out.println(this.name + " orders everyone to be treated!");
             myLocation.healAllCharacters();
-        }
-    }
-
-    public void orderFeast() {
-        if (myLocation != null) {
-            System.out.println(this.name + " order a feast!");
-            myLocation.feedAllCharacters();
         }
     }
 

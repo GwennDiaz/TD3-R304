@@ -16,6 +16,10 @@ public class BattleField extends Location {
         super.addCharacter(c);
     }
 
+    public boolean canEnter(Characters.Character c) {
+        return c instanceof Characters.Gallics.Gallic || c instanceof Characters.Romans.Roman || c instanceof Characters.MagicalCreature.Lycanthrope.Lycanthrope ;
+    }
+
     @Override
     public String getType() { return "Champ de Bataille"; }
 }

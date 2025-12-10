@@ -21,7 +21,12 @@ public class GalloRomanVillage extends Location {
             System.out.println(c.getName() + " : Entrée refusée (Pas de créatures ici).");
         }
     }
+    @Override
+    public boolean canEnter(Characters.Character c) {
+        return c instanceof Characters.Gallics.Gallic || c instanceof Characters.Romans.Roman || c instanceof Characters.MagicalCreature.Lycanthrope.Lycanthrope ;
+    }
 
     @Override
     public String getType() { return "Bourgade Gallo-Romaine"; }
 }
+
