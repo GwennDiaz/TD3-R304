@@ -1,5 +1,6 @@
 package Characters.Romans;
 
+import Characters.Character;
 import Characters.Gender;
 import Characters.Leader;
 
@@ -45,6 +46,7 @@ public class Prefect extends Roman implements Leader {
         System.out.println(name + " gives an order to " + legionnaire.getName() + ".");
     }
 
+
     @Override
     public String getType() {
         return "Roman Prefect";
@@ -52,7 +54,7 @@ public class Prefect extends Roman implements Leader {
 
     @Override
     public void lead() {
-        System.out.println(name + " dirige la province de " + province + " avec autorité.");
+        System.out.println(name + " governs the province of " + province + " with autority.");
         administerProvince();
     }
 }

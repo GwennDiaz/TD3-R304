@@ -1,5 +1,6 @@
 package Characters.Gallics;
 
+import Characters.Character;
 import Characters.Gender;
 import Characters.Worker;
 
@@ -35,6 +36,12 @@ public class Merchant extends Gallic implements Worker {
             System.out.println(name + " does not have enough money!");
             return false;
         }
+    }
+
+    @Override
+    public void fight(Character adversaire) {
+        System.out.println(name + " fight " + adversaire.getName());
+        super.fight(adversaire);  // Uses the inherited method from Character
     }
 
     @Override

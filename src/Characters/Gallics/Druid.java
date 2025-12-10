@@ -100,7 +100,7 @@ public class Druid extends Gallic implements Fighter, Leader, Worker {
     @Override
     public void fight(Character adversaire) {
         System.out.println(name + " fights " + adversaire.getName() + " with his magic!");
-        fight(adversaire);
+        super.fight(adversaire);  // Uses the inherited method from Character
     }
 
     @Override
@@ -108,11 +108,14 @@ public class Druid extends Gallic implements Fighter, Leader, Worker {
         System.out.println(name + " works on potions and healing.");
         // Note: Actual brewing requires a location context, simplified here
         magicPower = min(100, magicPower + 10);
+        System.out.println(name + " works by preparing potions and healing.");
+        concocterMarmite();
     }
 
     @Override
     public void lead() {
         System.out.println(name + " guides the community with wisdom.");
+        System.out.println(name + " leads the community with his wisdom and magic");
         setBelligerence(max(0, getBelligerence() - 10));
     }
 }
