@@ -15,7 +15,6 @@ public abstract class Location {
     protected ClanChief clanChief;
     protected List<Character> presentCharacters;
     protected List<FoodItem> presentFood;
-    protected List<String> presentFood;
     protected Environment environment;
 
     public Location(String name, double area, ClanChief clanChief) {
