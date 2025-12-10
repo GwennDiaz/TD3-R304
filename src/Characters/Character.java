@@ -1,5 +1,7 @@
 package Characters;
 
+import Consommable.FoodItem;
+
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
@@ -97,7 +99,7 @@ public abstract class Character {
         System.out.println(name + " is treated with " + careAmount + " points (Healt: " + oldHealth + " -> " + this.health + ")");
     }
 
-    public void eat(int quantity) {
+    public void eat(FoodItem quantity) {
         if (this.health <= 0) {
             System.out.println(name + " is dead and cant eat !");
             return;
