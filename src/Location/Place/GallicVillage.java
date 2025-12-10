@@ -4,7 +4,7 @@ import Location.Location;
 import Characters.Character;
 import Characters.Origin;
 import Characters.Gallics.Gallic;
-import Characters.MagicalCreature.Lycanthrope;
+import Characters.MagicalCreature.Lycanthrope.Lycanthrope;
 import Characters.Roles.ClanChief;
 
 public class GallicVillage extends Location {

@@ -15,9 +15,7 @@ public class FoodItem {
     protected int strengthDelta;
     protected int enduranceDelta;
 
-
-    public FoodItem(String name, Freshness freshness, int hungerLevel, int healthDelta, int belligerence, int strengthDelta, int enduranceDelta, FoodCategory... cats)
-    { //allows you to skip 1, 2, or 3 categories
+    public FoodItem(String name, Freshness freshness, int hungerLevel, int healthDelta, int belligerence, int strengthDelta, int enduranceDelta, FoodCategory... cats) {
         this.name = name;
         this.freshness = freshness;
         this.hungerLevel = hungerLevel;
@@ -26,28 +24,34 @@ public class FoodItem {
         this.strengthDelta = strengthDelta;
         this.enduranceDelta = enduranceDelta;
 
-        // Converting the category table into a list
         this.categories = new ArrayList<>(Arrays.asList(cats));
     }
-
 
     public String getName() {
         return name;
     }
+
     public boolean isFresh() {
         return this.freshness == Freshness.FRESH || this.freshness == Freshness.FAIRLYFRESH;
     }
 
-    //to rot food
+    // Necessary for the vegetable rule
+    public List<FoodCategory> getCategories() {
+        return categories;
+    }
+
     public void rot(){
         if (this.freshness == Freshness.FRESH) {
             this.freshness = Freshness.FAIRLYFRESH;
-            System.out.println(this.name + " beggining to rot...");
+            System.out.println(this.name + " is beginning to rot...");
         } else if (this.freshness == Freshness.FAIRLYFRESH) {
             this.freshness = Freshness.STALE;
-            System.out.println(this.name + " is outdated !");
+            System.out.println(this.name + " is stale!");
         }
     }
 
-
+    @Override
+    public String toString() {
+        return name + " (" + freshness + ")";
+    }
 }

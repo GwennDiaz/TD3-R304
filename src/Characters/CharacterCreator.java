@@ -4,19 +4,14 @@ import Characters.Gallics.Blacksmith;
 import Characters.Gallics.Druid;
 import Characters.Gallics.Innkeeper;
 import Characters.Gallics.Merchant;
-import Characters.MagicalCreature.Lycanthrope;
-import Characters.MagicalCreature.Rank;
+import Characters.MagicalCreature.Lycanthrope.Lycanthrope;
+import Characters.MagicalCreature.Lycanthrope.Rank; // Import Important !
 import Characters.Romans.General;
 import Characters.Romans.Legionnaire;
 import Characters.Romans.Prefect;
 
 import java.util.*;
-import java.util.concurrent.*;
 
-// Classe pour créer des personnages dans un thread
-
-
-// Classe pour créer des personnages dans un thread
 public class CharacterCreator implements Runnable {
     private String name;
     private String type;
@@ -33,25 +28,24 @@ public class CharacterCreator implements Runnable {
     @Override
     public void run() {
         try {
-            System.out.println("Thread " + Thread.currentThread().getName() + " : Création de " + name + " (" + type + ")...");
+            System.out.println("Thread " + Thread.currentThread().getName() + " : Creation of " + name + " (" + type + ")...");
 
-            // Simulation du temps de création
+            // Simulating creation time
             Thread.sleep(random.nextInt(500) + 200);
 
-            // Génération des caractéristiques aléatoires
+            // Generating random stats
             Gender gender = random.nextBoolean() ? Gender.MALE : Gender.FEMALE;
-            double height = 1.50 + random.nextDouble() * 0.50; // Entre 1.50m et 2.00m
-            int age = 20 + random.nextInt(60); // Entre 20 et 80 ans
-            int strength = 40 + random.nextInt(60); // Entre 40 et 100
+            double height = 1.50 + random.nextDouble() * 0.50;
+            int age = 20 + random.nextInt(60);
+            int strength = 40 + random.nextInt(60);
             int endurance = 40 + random.nextInt(60);
-            int health = 80 + random.nextInt(21); // Entre 80 et 100
-            int hunger = random.nextInt(50); // Entre 0 et 50
+            int health = 80 + random.nextInt(21);
+            int hunger = random.nextInt(50);
             int belligerence = random.nextInt(100);
             int magicPotionLevel = random.nextInt(50);
 
             Character character = null;
 
-            // Création selon le type
             switch(type.toLowerCase()) {
                 case "marchand":
                     int money = 500 + random.nextInt(1500);
@@ -81,8 +75,7 @@ public class CharacterCreator implements Runnable {
                     String[] legions = {"Legio I", "Legio II", "Legio III", "Legio X", "Legio XII"};
                     String legion = legions[random.nextInt(legions.length)];
                     character = new Legionnaire(name, gender, height, age, strength, endurance,
-                            health, hunger, belligerence, magicPotionLevel, legion) {
-                    };
+                            health, hunger, belligerence, magicPotionLevel, legion);
                     break;
 
                 case "prefet":
@@ -99,8 +92,8 @@ public class CharacterCreator implements Runnable {
                     break;
 
                 case "lycanthrope":
-                    // Il manque le RANG et l'IMPÉTUOSITÉ à la fin
-                    // J'ajoute Rank.OMEGA (rang par défaut) et 1.0 (impétuosité moyenne)
+                    // CORRECTION : Ajout des paramètres manquants pour le TD4 (Rank + Impetuosity)
+                    // Par défaut, un lycanthrope créé aléatoirement est OMEGA avec impétuosité moyenne
                     character = new Lycanthrope(name, gender, height, age, strength, endurance,
                             health, hunger, belligerence, magicPotionLevel,
                             Rank.OMEGA, 1.0);
@@ -111,11 +104,11 @@ public class CharacterCreator implements Runnable {
                 synchronized(listCharacters) {
                     listCharacters.add(character);
                 }
-                System.out.println("Thread " + Thread.currentThread().getName() + " : " + name + " créé avec succès !");
+                System.out.println("Thread " + Thread.currentThread().getName() + " : " + name + " created successfully!");
             }
 
         } catch (InterruptedException e) {
-            System.err.println("Erreur lors de la création de " + name);
+            System.err.println("Error creating " + name);
             e.printStackTrace();
         }
     }

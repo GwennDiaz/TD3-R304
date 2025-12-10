@@ -3,7 +3,11 @@ package Characters.Gallics;
 import Characters.*;
 import Characters.Character;
 import Characters.Gender;
+import Location.Location;
+import Consommable.FoodItem;
 
+import java.util.ArrayList;
+import java.util.List;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
@@ -22,11 +26,11 @@ public class Druid extends Gallic implements Fighter, Leader, Worker {
     }
 
     public void preparePotion(Character target, int quantity) {
-        if (magicPower >= 50) {
+        if (magicPower >= 10) {
             target.setMagicPotionLevel(target.getMagicPotionLevel() + quantity);
-            System.out.println(name + " prepares a magic potion for " + target.getName() + " (+" + quantity + ")");
+            System.out.println(name + " pours a ladle of potion for " + target.getName() + " (+" + quantity + ")");
         } else {
-            System.out.println(name + " does not have enough magic power to prepare a potion!");
+            System.out.println(name + " is too tired to serve potion!");
         }
     }
 
@@ -36,12 +40,51 @@ public class Druid extends Gallic implements Fighter, Leader, Worker {
         System.out.println(name + " heals " + target.getName() + " (+" + healing + " health)");
     }
 
-    public void concocterMarmite() {
-        System.out.println(name + " concocte une grande marmite de potion magique !");
-        System.out.println("La marmite bouillonne et dégage une fumée mystique...");
-        this.magicPotionLevel = 100;
-        setHunger(min(100, getHunger() + 20));
-        this.endurance = max(0, this.endurance - 15);
+    /**
+     * Concocts a cauldron. Requires ingredients from the Location.
+     */
+    public void brewPotion(Location location) {
+        System.out.println(name + " attempts to brew the Magic Potion...");
+
+        // List of required ingredients names (case insensitive check usually better)
+        String[] requiredIngredients = {
+                "Mistletoe", "carrot", "Salt", "FreshFourLeafClover",
+                "FairlyFreshFish", "RockOil", "Honey", "Mead", "SecretIngredient"
+        };
+
+        List<FoodItem> availableFood = location.getPresentFood();
+        List<FoodItem> toConsume = new ArrayList<>();
+        boolean missing = false;
+
+        // Check availability
+        for (String req : requiredIngredients) {
+            FoodItem found = null;
+            for (FoodItem item : availableFood) {
+                if (item.getName().equalsIgnoreCase(req) && !toConsume.contains(item)) {
+                    found = item;
+                    break;
+                }
+            }
+            if (found != null) {
+                toConsume.add(found);
+            } else {
+                System.out.println("Missing ingredient: " + req);
+                missing = true;
+            }
+        }
+
+        if (missing) {
+            System.out.println("FAILURE: Cannot brew potion. Ingredients missing.");
+        } else {
+            // Consume ingredients
+            availableFood.removeAll(toConsume);
+            System.out.println("SUCCESS: The cauldron bubbles! The potion is ready!");
+            // Refill Druid's potion supply (abstract concept of the cauldron)
+            this.magicPotionLevel = 100;
+
+            setHunger(min(100, getHunger() + 20));
+            this.endurance = max(0, this.endurance - 15);
+        }
     }
 
     public void gatherMistletoe() {
@@ -56,19 +99,20 @@ public class Druid extends Gallic implements Fighter, Leader, Worker {
 
     @Override
     public void fight(Character adversaire) {
-        System.out.println(name + " combat " + adversaire.getName() + " avec sa magie !");
-        fight(adversaire);  // Utilise la méthode héritée de Personnage
+        System.out.println(name + " fights " + adversaire.getName() + " with his magic!");
+        fight(adversaire);
     }
 
     @Override
     public void work() {
-        System.out.println(name + " travaille en préparant des potions et en soignant.");
-        concocterMarmite();
+        System.out.println(name + " works on potions and healing.");
+        // Note: Actual brewing requires a location context, simplified here
+        magicPower = min(100, magicPower + 10);
     }
 
     @Override
     public void lead() {
-        System.out.println(name + " dirige la communauté avec sa sagesse et sa magie.");
+        System.out.println(name + " guides the community with wisdom.");
         setBelligerence(max(0, getBelligerence() - 10));
     }
 }

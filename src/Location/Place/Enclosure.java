@@ -2,7 +2,7 @@ package Location.Place;
 
 import Location.Location;
 import Characters.Character;
-import Characters.MagicalCreature.Lycanthrope;
+import Characters.MagicalCreature.Lycanthrope.Lycanthrope;
 import Characters.Roles.ClanChief;
 
 public class Enclosure extends Location {
