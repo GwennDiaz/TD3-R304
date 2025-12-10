@@ -1,13 +1,10 @@
 package Consommable.Liquid;
 
-import Consommable.FoodCategory;
+import Consommable.FoodItem;
+import static Consommable.FoodCategory.*;
 
-import static Consommable.FoodCategory.DRINK;
-import static Consommable.FoodCategory.INGREDIENT;
-
-public class RockOil {
-    private int hungerRestore=8;
-    private int healthDelta=+0;
-    private FoodCategory category = DRINK;
-    private FoodCategory category2 = INGREDIENT;
+public class RockOil extends FoodItem {
+    public RockOil() {
+        super("RockOil", null, 8, 0, 0, 0, 0, DRINK, INGREDIENT);
+    }
 }

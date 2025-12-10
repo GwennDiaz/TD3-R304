@@ -103,9 +103,9 @@ public abstract class Character {
             return;
         }
 
-        int ancienneFaim = this.hunger;
+        int oldHunger = this.hunger;
         this.setHunger(this.hunger - quantity);
-        System.out.println(name + " eats and reduces his hunger by " + quantity + " points (Hunge: " + ancienneFaim + " -> " + this.hunger + ")");
+        System.out.println(name + " eats and reduces his hunger by " + quantity + " points (Hunge: " + oldHunger + " -> " + this.hunger + ")");
     }
 
     public void drinkMagicPotion(int quantity) {
@@ -114,9 +114,9 @@ public abstract class Character {
             return;
         }
 
-        int ancienNiveau = this.magicPotionLevel;
+        int oldLevel = this.magicPotionLevel;
         this.setMagicPotionLevel(this.magicPotionLevel + quantity);
-        System.out.println(name + " drinks a magic potion (+" + quantity + " points) (Level: " + ancienNiveau + " -> " + this.magicPotionLevel + ")");
+        System.out.println(name + " drinks a magic potion (+" + quantity + " points) (Level: " + oldLevel + " -> " + this.magicPotionLevel + ")");
 
         // The magic potion restores some health and reduces hunger.
         this.cure(quantity / 2);

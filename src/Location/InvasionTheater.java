@@ -6,6 +6,7 @@ import Characters.Gender;
 import Characters.Origin;
 import Characters.Roles.ClanChief;
 import Characters.Romans.Legionnaire;
+import Consommable.FoodItem;
 import Location.Place.BattleField;
 import Location.Place.GallicVillage;
 import Location.Place.RomanFortifiedCamp;
@@ -179,9 +180,16 @@ public class InvasionTheater {
             if (!(loc instanceof BattleField) && random.nextDouble() < 0.4) {
                 System.out.println("Supplies arrived at " + loc.getName());
             }
-
-
+            for (FoodItem food : loc.getPresentFood()) {
+                if (food.isFresh()) {
+                    // A 1 in 3 chance that it will rot on this turn
+                    if (random.nextDouble() < 0.3) {
+                        food.rot();
+                    }
+                }
+            }
         }
+
     }
 
     private void handleChiefsTurn() {

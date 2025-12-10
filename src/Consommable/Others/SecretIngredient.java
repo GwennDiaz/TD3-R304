@@ -1,9 +1,11 @@
 package Consommable.Others;
 
-import Consommable.FoodCategory;
+import Consommable.FoodItem;
 
-import static Consommable.FoodCategory.INGREDIENT;
+import static Consommable.FoodCategory.*;
 
-public class SecretIngredient {
-    private FoodCategory category = INGREDIENT;
+public class SecretIngredient extends FoodItem {
+    public SecretIngredient() {
+        super("SecretIngredient", null, 0, 0, 0, 0, 0, INGREDIENT);
+    }
 }

@@ -1,12 +1,10 @@
 package Consommable.Others;
 
-import Consommable.FoodCategory;
-
+import Consommable.FoodItem;
 import static Consommable.FoodCategory.*;
 
-public class Honey {
-    private int hungerRestore=5;
-    private int healthDelta=+5;
-    private FoodCategory category = CONDIMENT;
-    private FoodCategory category2 = INGREDIENT;
+public class Honey extends FoodItem {
+    public Honey() {
+        super("Honey", null, 5, 5, 0, 0, 0, CONDIMENT, INGREDIENT);
+    }
 }

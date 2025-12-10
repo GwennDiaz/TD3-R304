@@ -1,11 +1,10 @@
 package Consommable.Others;
 
-import Consommable.FoodCategory;
+import Consommable.FoodItem;
+import static Consommable.FoodCategory.*;
 
-import static Consommable.FoodCategory.INGREDIENT;
-
-public class HairFromIdefix {
-    private int hungerRestore=0;
-    private int healthDelta=+0;
-    private FoodCategory category = INGREDIENT;
+public class HairFromIdefix extends FoodItem {
+    public HairFromIdefix() {
+        super("HairFromIdefix", null, 0, 0, 0, 0, 0, INGREDIENT);
+    }
 }

@@ -4,6 +4,8 @@ import Characters.Character; // Important : Import de votre classe Character
 import Characters.Gallics.Gallic;
 import java.util.*;
 import Characters.Roles.ClanChief;
+import Consommable.FoodItem;
+
 import static java.lang.Math.max;
 import java.util.Random;
 
@@ -12,6 +14,7 @@ public abstract class Location {
     protected double area;
     protected ClanChief clanChief;
     protected List<Character> presentCharacters;
+    protected List<FoodItem> presentFood;
     protected List<String> presentFood;
     protected Environment environment;
 
@@ -38,7 +41,7 @@ public abstract class Location {
         return presentCharacters;
     }
 
-    public List<String> getPresentFood() {
+    public List<FoodItem> getPresentFood() {
         return presentFood;
     }
 
@@ -102,7 +105,7 @@ public abstract class Location {
 
         for (Character c : presentCharacters) {
             if (!presentFood.isEmpty()) {
-                String food = presentFood.removeFirst();
+                String food = String.valueOf(presentFood.removeFirst());
                 c.setHunger(0);
                 System.out.println(c.getName() + " ate " + food + ".");
             } else {
