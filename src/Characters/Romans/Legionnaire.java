@@ -64,6 +64,6 @@ public class Legionnaire extends Roman {
     @Override
     public void fight(Character adversaire) {
         System.out.println(name + " de la " + legion + " combat contre " + adversaire.getName());
-        fight(adversaire);
+        super.fight(adversaire);
     }
 }
