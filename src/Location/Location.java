@@ -1,10 +1,12 @@
 package Location;
 
 import Characters.Character; // Important : Import de votre classe Character
-import Characters.Gallics.Gallic;
 import java.util.*;
 import Characters.Roles.ClanChief;
 import Consommable.FoodItem;
+import Consommable.Potion.Potion;
+
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import static java.lang.Math.max;
 
@@ -12,8 +14,8 @@ public abstract class Location {
     protected String name;
     protected double area;
     protected ClanChief clanChief;
-    protected List<Character> presentCharacters;
-    protected List<FoodItem> presentFood;
+    protected List<Character> presentCharacters = new CopyOnWriteArrayList<>();    protected List<FoodItem> presentFood;
+    protected Potion marmite;
 
     public Location(String name, double area, ClanChief clanChief) {
         this.name = name;
@@ -43,6 +45,9 @@ public abstract class Location {
 
     // --- SETTERS---
 
+    public void setMarmite(Potion p) {
+        this.marmite = p;
+    }
     public void setArea(double area) {
         this.area = max(0, area);
     }
@@ -56,8 +61,12 @@ public abstract class Location {
 
     // Add a character
     public void addCharacter(Character c) {
-        this.presentCharacters.add(c);
-        System.out.println(c.getName() + " entered into " + this.name);
+        if (canEnter(c)) {
+            this.presentCharacters.add(c);
+            System.out.println(c.getName() + " entered " + this.name);
+        } else {
+            System.out.println(c.getName() + " Superhuman Force is not allowed to enter " + this.name);
+        }
     }
 
     // Remove a character
@@ -69,6 +78,8 @@ public abstract class Location {
             System.out.println(c.getName() + " is not in " + this.name);
         }
     }
+
+    public abstract boolean canEnter(Character c);
 
     // Display characteristics
     public void printStatus() {
@@ -93,21 +104,6 @@ public abstract class Location {
             c.setHealth(100); // Remet la santé à 100
         }
         System.out.println("All characters have been healed!");
-    }
-
-    // Feed characters
-    public void feedAllCharacters() {
-        System.out.println("Feeding time in " + name + "...");
-
-        for (Character c : presentCharacters) {
-            if (!presentFood.isEmpty()) {
-                String food = String.valueOf(presentFood.removeFirst());
-                c.setHunger(0);
-                System.out.println(c.getName() + " ate " + food + ".");
-            } else {
-                System.out.println("No more food for " + c.getName() + "!");
-            }
-        }
     }
 
     @Override

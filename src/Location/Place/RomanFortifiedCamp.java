@@ -26,5 +26,11 @@ public class RomanFortifiedCamp extends Location {
     }
 
     @Override
+    public boolean canEnter(Character c) {
+        // Accepts Roman
+        return c instanceof Characters.Romans.Roman;
+    }
+
+    @Override
     public String getType() { return "Camp Romain"; }
 }

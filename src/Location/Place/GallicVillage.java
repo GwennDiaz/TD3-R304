@@ -25,5 +25,11 @@ public class GallicVillage extends Location {
     }
 
     @Override
+    public boolean canEnter(Character c) {
+        // Accepts Gauls or creatures
+        return c instanceof Characters.Gallics.Gallic || c instanceof Characters.MagicalCreature.Lycanthrope;
+    }
+
+    @Override
     public String getType() { return "Village Gaulois"; }
 }

@@ -3,6 +3,10 @@ package Characters.Gallics;
 import Characters.*;
 import Characters.Character;
 import Characters.Gender;
+import Consommable.Potion.Potion;
+import Consommable.Potion.PotionsEffect;
+import Location.Location;
+import java.util.Arrays;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
@@ -36,12 +40,16 @@ public class Druid extends Gallic implements Fighter, Leader, Worker {
         System.out.println(name + " heals " + target.getName() + " (+" + healing + " health)");
     }
 
-    public void concocterMarmite() {
-        System.out.println(name + " concocte une grande marmite de potion magique !");
-        System.out.println("La marmite bouillonne et dégage une fumée mystique...");
-        this.magicPotionLevel = 100;
-        setHunger(min(100, getHunger() + 20));
-        this.endurance = max(0, this.endurance - 15);
+    public void concocterMarmite(Location lieu) {
+        System.out.println(name + " concoct a large pot of magic potion!");
+        System.out.println("The pot is bubbling and giving off a mystical smoke...");
+        PotionsEffect MagicEffect = new PotionsEffect(0, -50, 100, 100, "Superhuman Strength");
+        Potion laMarmite = new Potion("Magic Potion", Arrays.asList("Gui", "Carottes", "Sel"), 10, 5, 5); // Ingrédients);
+        lieu.setMarmite(laMarmite);
+
+        System.out.println("A steaming pot is ready in the center of" + lieu.getName() + "!");
+
+        setHunger(Math.min(100, getHunger() + 20));
     }
 
     public void gatherMistletoe() {
