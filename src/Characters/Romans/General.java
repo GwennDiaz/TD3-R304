@@ -59,12 +59,12 @@ public class General extends Roman implements Fighter, Leader {
     }
 
     @Override
-    public void fight(Character adversaire) {
-        System.out.println("Le Général " + name + " combat personnellement contre " + adversaire.getName());
-        fight(adversaire);  // Utilise la méthode héritée de Personnage
+    public void fight(Character opponent) {
+        System.out.println("The General " + name + " personally fight against " + opponent.getName());
+        fight(opponent);  // Uses the inherited method from Character
 
-        // Bonus : si le Général gagne, il remporte une victoire
-        if (!isDead() && adversaire.isDead()) {
+        // Bif the General wins, he wins a victory.
+        if (!isDead() && opponent.isDead()) {
             winVictory();
         }
     }

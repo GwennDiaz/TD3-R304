@@ -1,21 +1,20 @@
 package Location;
 
-import Characters.Character; // Important : Import de votre classe Character
-import java.util.*;
+import Characters.Character;
 import Characters.Roles.ClanChief;
 import Consommable.FoodItem;
-import Consommable.Potion.Potion;
-
-import java.util.concurrent.CopyOnWriteArrayList;
-
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import static java.lang.Math.max;
 
 public abstract class Location {
     protected String name;
     protected double area;
     protected ClanChief clanChief;
-    protected List<Character> presentCharacters = new CopyOnWriteArrayList<>();    protected List<FoodItem> presentFood;
-    protected Potion marmite;
+    protected List<Character> presentCharacters;
+    protected List<FoodItem> presentFood;
+    protected Environment environment;
 
     public Location(String name, double area, ClanChief clanChief) {
         this.name = name;
@@ -23,50 +22,27 @@ public abstract class Location {
         this.clanChief = clanChief;
         this.presentCharacters = new ArrayList<>();
         this.presentFood = new ArrayList<>();
+        this.environment = Environment.NORMAL;
     }
 
-    //---GETTERS---
-
+    //---GETTERS
     public String getName() { return name; }
     public double getArea() { return area; }
     public ClanChief getClanChief() { return clanChief; }
-
-    public int getNumberOfCharactersPresent() {
-        return presentCharacters.size();
-    }
-
-    public List<Character> getPresentCharacters() {
-        return presentCharacters;
-    }
-
-    public List<FoodItem> getPresentFood() {
-        return presentFood;
-    }
-
-    // --- SETTERS---
-
-    public void setMarmite(Potion p) {
-        this.marmite = p;
-    }
-    public void setArea(double area) {
-        this.area = max(0, area);
-    }
-    public void setClanChief(ClanChief clanChief) {
-        this.clanChief = clanChief;
-    }
-
+    public List<Character> getPresentCharacters() { return presentCharacters; }
+    public List<FoodItem> getPresentFood() { return presentFood; }
     public abstract String getType();
+    public int getNumberOfCharactersPresent() { return presentCharacters.size(); }
 
-    // --- METHODS ---
+    // --- SETTERS
+    public void setArea(double area) { this.area = max(0, area); }
+    public void setClanChief(ClanChief clanChief) { this.clanChief = clanChief; }
+    public void setEnvironment(Environment env) { this.environment = env; }
 
-    // Add a character
+    // --- METHODS
     public void addCharacter(Character c) {
-        if (canEnter(c)) {
-            this.presentCharacters.add(c);
-            System.out.println(c.getName() + " entered " + this.name);
-        } else {
-            System.out.println(c.getName() + " Superhuman Force is not allowed to enter " + this.name);
-        }
+        this.presentCharacters.add(c);
+        System.out.println(c.getName() + " entered into " + this.name);
     }
 
     // Remove a character
@@ -85,10 +61,6 @@ public abstract class Location {
     public void printStatus() {
         System.out.println("\n--- STATUS OF " + name.toUpperCase() + " ---");
         System.out.println("Type: " + getType());
-        System.out.println("Area: " + area + " m²");
-        if (clanChief != null) {
-            System.out.println("Chief: " + clanChief.getName());
-        }
         System.out.println("Food available: " + presentFood);
         System.out.println("Characters present (" + getNumberOfCharactersPresent() + "):");
         for (Character c : presentCharacters) {
@@ -100,18 +72,26 @@ public abstract class Location {
     // Heal characters
     public void healAllCharacters() {
         System.out.println("Healing everyone in " + name + "...");
+        for (Character c : presentCharacters) c.setHealth(100);
+    }
+
+
+    public void applyEnvironmentEffects() {
+        if (environment == Environment.NORMAL) return;
+        System.out.println("\n--- Effets Météo (" + environment + ") ---");
+        Random rand = new Random();
         for (Character c : presentCharacters) {
-            c.setHealth(100); // Remet la santé à 100
+            if (environment == Environment.DESERT) {
+                c.setHunger(Math.min(100, c.getHunger() + 10));
+            } else if (environment == Environment.MOUNTAIN && rand.nextInt(5) == 0) {
+                c.setHealth(Math.max(0, c.getHealth() - 10));
+                System.out.println("Aïe ! " + c.getName() + " a glissé (-10 Vie).");
+            }
         }
-        System.out.println("All characters have been healed!");
     }
 
     @Override
     public String toString() {
-        return String.format(
-                this.name,
-                this.getType(),
-                this.getNumberOfCharactersPresent()
-        );
+        return name + " (" + getType() + ") - " + getNumberOfCharactersPresent() + " pers.";
     }
 }

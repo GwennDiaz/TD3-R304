@@ -1,7 +1,5 @@
 package Characters;
 
-import Consommable.FoodItem;
-
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
@@ -17,6 +15,8 @@ public abstract class Character {
     protected int belligerence;
     protected int magicPotionLevel;
 
+    protected FoodCategory lastFoodCategory;
+
     public Character(String name, Gender gender, double height, int age, int strength,
                      int endurance, int health, int hunger, int belligerence, int magicPotionLevel) {
         this.name = name;
@@ -29,8 +29,10 @@ public abstract class Character {
         this.hunger = hunger;
         this.belligerence = belligerence;
         this.magicPotionLevel = magicPotionLevel;
+        this.lastFoodCategory = null;
     }
 
+    //---GETTERS
     public String getName() { return name; }
     public Gender getGender() { return gender; }
     public double getHeight() { return height; }
@@ -42,87 +44,119 @@ public abstract class Character {
     public int getBelligerence() { return belligerence; }
     public int getMagicPotionLevel() { return magicPotionLevel; }
 
-    public void setHealth(int health) {
-        this.health = max(0, min(100, health));
-    }
-
-    public void setHunger(int hunger) {
-        this.hunger = max(0, min(100, hunger));
-    }
-
-    public void setBelligerence(int belligerence) {
-        this.belligerence = max(0, min(100, belligerence));
-    }
-
-    public void setMagicPotionLevel(int level) {
-        this.magicPotionLevel = max(0, min(100, level));
-    }
+    // --- SETTERS ---
+    public void setHealth(int health) { this.health = max(0, min(100, health)); }
+    public void setHunger(int hunger) { this.hunger = max(0, min(100, hunger)); }
+    public void setBelligerence(int belligerence) { this.belligerence = max(0, min(100, belligerence)); }
+    public void setMagicPotionLevel(int level) { this.magicPotionLevel = max(0, min(100, level)); }
 
     public abstract String getType();
 
-    public void fight (Character opponent){
-        if (this.health <= 0){
-            System.out.println(name + "is dead");
-            return;
-        }
-        if(opponent.getHealth() <= 0){
-            System.out.println(name + "is dead");
+    //---ACTIONS
+
+    public void fight(Character opponent) {
+        if (this.health <= 0 || opponent.getHealth() <= 0) {
+            System.out.println(name + " or opponent is dead.");
             return;
         }
         System.out.println(name + " fights against " + opponent.getName());
 
-        int damageInflicted = (this.strength * (100 - opponent.getEndurance())) / 100;
-        int damageReceived = (opponent.getStrength() * (100 - this.endurance)) / 1000;
+        // The potion gives superhuman strength.
+        int effectiveStrength = this.strength;
+        if (this.magicPotionLevel > 0) {
+            effectiveStrength *= 5;
+        }
+
+        // Damage calculation
+        int damageInflicted = (effectiveStrength * (100 - opponent.getEndurance())) / 100;
+
+        // Damage Taken Calculation (INVINCIBILITY)
+        int damageReceived = 0;
+        if (this.magicPotionLevel > 0) {
+            System.out.println(">>> " + this.name + " is INVINCIBLE thanks to the potion!");
+            damageReceived = 0;
+            // The potion drops a little after exertion.
+            this.magicPotionLevel = max(0, this.magicPotionLevel - 10);
+        } else {
+            damageReceived = (opponent.getStrength() * (100 - this.endurance)) / 100;
+        }
 
         opponent.setHealth(opponent.getHealth() - damageInflicted);
         this.health -= damageReceived;
 
         System.out.println(name + " inflicts " + damageInflicted + " damage to " + opponent.getName());
-        System.out.println(opponent.getName() + " inflicts " + damageReceived + " damage to " + name);
+        if (damageReceived > 0) {
+            System.out.println(opponent.getName() + " inflicts " + damageReceived + " damage to " + name);
+        }
 
         this.setBelligerence(min(100, this.belligerence + 10));
         opponent.setBelligerence(Math.min(100, opponent.getBelligerence() + 10));
 
         this.checkTrepas();
         opponent.checkTrepas();
-
     }
 
     public void cure(int careAmount) {
         if (this.health <= 0) {
-            System.out.println(name + " He is dead and can no longer be treated! ");
+            System.out.println(name + " is dead and cannot be treated!");
             return;
         }
 
         int oldHealth = this.health;
         this.setHealth(this.health + careAmount);
-        System.out.println(name + " is treated with " + careAmount + " points (Healt: " + oldHealth + " -> " + this.health + ")");
+        System.out.println(name + " is treated (Health: " + oldHealth + " -> " + this.health + ")");
     }
 
-    public void eat(FoodItem quantity) {
+    public void eat(FoodItem food) {
         if (this.health <= 0) {
-            System.out.println(name + " is dead and cant eat !");
+            System.out.println(name + " is dead and cannot eat!");
             return;
         }
 
-        int oldHunger = this.hunger;
-        this.setHunger(this.hunger - quantity);
-        System.out.println(name + " eats and reduces his hunger by " + quantity + " points (Hunge: " + oldHunger + " -> " + this.hunger + ")");
+        System.out.println(name + " eats " + food.getName());
+
+        // Réduction de la faim (valeur par défaut arbitraire de 20 ici)
+        setHunger(max(0, this.hunger - 20));
+
+        // Règle : Poisson pas frais = Mauvais pour la santé
+        if (!food.isFresh()) {
+            System.out.println("Yuck! It's not fresh! (-10 Health)");
+            setHealth(this.health - 10);
+        }
+
+        // Règle : Légumes consécutifs = Mauvais pour la santé
+        boolean isVegetable = food.getCategories().contains(FoodCategory.VEGETABLE);
+
+        if (isVegetable) {
+            if (this.lastFoodCategory == FoodCategory.VEGETABLE) {
+                System.out.println("Vegetables again?! That's bad for health! (-5 Health)");
+                setHealth(this.health - 5);
+            }
+            this.lastFoodCategory = FoodCategory.VEGETABLE;
+        } else {
+            this.lastFoodCategory = FoodCategory.MEAT; // Réinitialise la série
+        }
+
+        checkTrepas();
     }
 
     public void drinkMagicPotion(int quantity) {
-        if (this.health <= 0) {
-            System.out.println(name + " is dead and cant drink potion!");
-            return;
-        }
+        if (this.health <= 0) return;
 
         int oldLevel = this.magicPotionLevel;
         this.setMagicPotionLevel(this.magicPotionLevel + quantity);
-        System.out.println(name + " drinks a magic potion (+" + quantity + " points) (Level: " + oldLevel + " -> " + this.magicPotionLevel + ")");
+        System.out.println(name + " drinks magic potion (+" + quantity + ")");
 
         // The magic potion restores some health and reduces hunger.
         this.cure(quantity / 2);
         this.setHunger(max(0, this.hunger - quantity / 3));
+
+        //Too much potion turns you into a granite statue (Death)
+        if (this.magicPotionLevel > 200) {
+            System.out.println("!!! OVERDOSE !!! " + name + " turns into a GRANITE STATUE.");
+            this.health = 0;
+            this.name = name + " (Statue)";
+        }
     }
 
     public void checkTrepas() {
@@ -133,7 +167,7 @@ public abstract class Character {
     }
 
     public void trepasser() {
-        System.out.println(name + " (" + getType() + ") dies... RIP");
+        System.out.println("☠ " + name + " (" + getType() + ") has passed away... RIP");
         this.health = 0;
         this.belligerence = 0;
     }
@@ -144,7 +178,6 @@ public abstract class Character {
 
     @Override
     public String toString() {
-        return String.format("%s (%s) - %s, %d years, %.2fm\nStrength: %d, Endurance: %d, Health: %d, Hunger: %d, Belligerence: %d, Potion: %d",
-                name, getType(), gender, age, height, strength, endurance, health, hunger, belligerence, magicPotionLevel);
+        return String.format("%s (%s) | Health: %d | Potion: %d", name, getType(), health, magicPotionLevel);
     }
 }

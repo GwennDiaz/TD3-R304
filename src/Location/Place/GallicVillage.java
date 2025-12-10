@@ -4,7 +4,7 @@ import Location.Location;
 import Characters.Character;
 import Characters.Origin;
 import Characters.Gallics.Gallic;
-import Characters.MagicalCreature.Lycanthrope;
+import Characters.MagicalCreature.Lycanthrope.Lycanthrope;
 import Characters.Roles.ClanChief;
 
 public class GallicVillage extends Location {
@@ -26,7 +26,7 @@ public class GallicVillage extends Location {
 
     @Override
     public boolean canEnter(Character c) {
-        // Accepts Gauls or creatures
+        // Accepts Gauls or Creatures
         return c instanceof Characters.Gallics.Gallic || c instanceof Characters.MagicalCreature.Lycanthrope;
     }
 

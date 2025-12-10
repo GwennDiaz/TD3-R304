@@ -15,7 +15,7 @@ public abstract class Gallic extends Character {
         if (food.getName().equalsIgnoreCase("Boar") || food.getName().contains("Fish")) {
             super.eat(food);
         } else {
-            System.out.println(name + " refuse de manger ça ! Ce n'est pas un régime de Gaulois.");
+            System.out.println(name + " Refuse to eat that! It's not a Gaulish diet.");
         }
     }
 }
