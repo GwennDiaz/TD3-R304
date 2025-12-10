@@ -5,6 +5,7 @@ import Characters.Gallics.Gallic;
 import java.util.*;
 import Characters.Roles.ClanChief;
 import static java.lang.Math.max;
+import java.util.Random;
 
 public abstract class Location {
     protected String name;
@@ -12,6 +13,7 @@ public abstract class Location {
     protected ClanChief clanChief;
     protected List<Character> presentCharacters;
     protected List<String> presentFood;
+    protected Environment environment;
 
     public Location(String name, double area, ClanChief clanChief) {
         this.name = name;
@@ -19,6 +21,7 @@ public abstract class Location {
         this.clanChief = clanChief;
         this.presentCharacters = new ArrayList<>();
         this.presentFood = new ArrayList<>();
+        this.environment = Environment.NORMAL;
     }
 
     //---GETTERS---
@@ -47,8 +50,8 @@ public abstract class Location {
     public void setClanChief(ClanChief clanChief) {
         this.clanChief = clanChief;
     }
-
     public abstract String getType();
+    public void setEnvironment(Environment env) {this.environment = env;}
 
     // --- METHODS ---
 
@@ -115,5 +118,33 @@ public abstract class Location {
                 this.getType(),
                 this.getNumberOfCharactersPresent()
         );
+    }
+
+    //APPLIQUER EFFET METEO
+    public void applyEnvironmentEffects() {
+        if (environment == Environment.NORMAL) return;
+
+        System.out.println("\n--- Effets Météo (" + environment + ") ---");
+        Random rand = new Random();
+
+        for (Character c : presentCharacters) {
+            switch (environment) {
+                case DESERT:
+                    // La chaleur fatigue et affame
+                    c.setHunger(Math.min(100, c.getHunger() + 10));
+                    System.out.println(c.getName() + " souffre de la chaleur (+10 Faim).");
+                    break;
+                case MOUNTAIN:
+                    // 20% de chance de glisser
+                    if (rand.nextInt(5) == 0) {
+                        c.setHealth(Math.max(0, c.getHealth() - 10));
+                        System.out.println("Aïe ! " + c.getName() + " a glissé sur un rocher (-10 Vie).");
+                    }
+                    break;
+                case FOG:
+                    System.out.println(c.getName() + " ne voit pas à 2 mètres dans ce brouillard...");
+                    break;
+            }
+        }
     }
 }

@@ -5,6 +5,7 @@ import Characters.Gallics.Druid;
 import Characters.Gallics.Innkeeper;
 import Characters.Gallics.Merchant;
 import Characters.MagicalCreature.Lycanthrope;
+import Characters.MagicalCreature.Rank;
 import Characters.Romans.General;
 import Characters.Romans.Legionnaire;
 import Characters.Romans.Prefect;
@@ -98,8 +99,11 @@ public class CharacterCreator implements Runnable {
                     break;
 
                 case "lycanthrope":
+                    // Il manque le RANG et l'IMPÉTUOSITÉ à la fin
+                    // J'ajoute Rank.OMEGA (rang par défaut) et 1.0 (impétuosité moyenne)
                     character = new Lycanthrope(name, gender, height, age, strength, endurance,
-                            health, hunger, belligerence, magicPotionLevel);
+                            health, hunger, belligerence, magicPotionLevel,
+                            Rank.OMEGA, 1.0);
                     break;
             }
 
