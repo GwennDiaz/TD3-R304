@@ -37,8 +37,8 @@ public class Druid extends Gallic implements Fighter, Leader, Worker {
     }
 
     public void concocterMarmite() {
-        System.out.println(name + " concocte une grande marmite de potion magique !");
-        System.out.println("La marmite bouillonne et dégage une fumée mystique...");
+        System.out.println(name + " concoct a large pot of magic potion!");
+        System.out.println("The pot is bubbling and giving off a mystical smoke...");
         this.magicPotionLevel = 100;
         setHunger(min(100, getHunger() + 20));
         this.endurance = max(0, this.endurance - 15);
@@ -56,19 +56,19 @@ public class Druid extends Gallic implements Fighter, Leader, Worker {
 
     @Override
     public void fight(Character adversaire) {
-        System.out.println(name + " combat " + adversaire.getName() + " avec sa magie !");
-        fight(adversaire);  // Utilise la méthode héritée de Personnage
+        System.out.println(name + " fight " + adversaire.getName() + " with its magic!");
+        super.fight(adversaire);  // Uses the inherited method from Character
     }
 
     @Override
     public void work() {
-        System.out.println(name + " travaille en préparant des potions et en soignant.");
+        System.out.println(name + " works by preparing potions and healing.");
         concocterMarmite();
     }
 
     @Override
     public void lead() {
-        System.out.println(name + " dirige la communauté avec sa sagesse et sa magie.");
+        System.out.println(name + " leads the community with his wisdom and magic");
         setBelligerence(max(0, getBelligerence() - 10));
     }
 }

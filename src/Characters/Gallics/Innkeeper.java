@@ -43,13 +43,19 @@ public class Innkeeper extends Gallic implements Worker {
     }
 
     @Override
+    public void fight(Character adversaire) {
+        System.out.println(name + " fight " + adversaire.getName());
+        super.fight(adversaire);  // Uses the inherited method from Character
+    }
+
+    @Override
     public String getType() {
         return "Gallic Innkeeper";
     }
 
     @Override
     public void work() {
-        System.out.println(name + " travaille à l'auberge en servant les clients.");
+        System.out.println(name + " works at the inn serving customers.");
         setHunger(Math.min(100, getHunger() + 10));
         this.endurance = Math.max(0, this.endurance - 8);
     }

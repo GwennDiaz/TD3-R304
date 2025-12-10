@@ -6,7 +6,7 @@ import java.util.*;
  * Classe pour stocker et gérer les listes de noms des personnages
  * Cette classe est indépendante et peut être utilisée partout dans l'application
  */
-public class NameRepository {
+public class  NameRepository {
 
     // Listes statiques de noms Gaulois
     private static final List<String> NAME_MERCHANDT = Arrays.asList(
