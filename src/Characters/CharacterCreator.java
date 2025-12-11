@@ -5,7 +5,7 @@ import Characters.Gallics.Druid;
 import Characters.Gallics.Innkeeper;
 import Characters.Gallics.Merchant;
 import Characters.MagicalCreature.Lycanthrope.Lycanthrope;
-import Characters.MagicalCreature.Lycanthrope.Rank; // Import Important !
+import Characters.MagicalCreature.Lycanthrope.Rank;
 import Characters.Romans.General;
 import Characters.Romans.Legionnaire;
 import Characters.Romans.Prefect;

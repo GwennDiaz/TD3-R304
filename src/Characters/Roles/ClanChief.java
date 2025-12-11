@@ -3,9 +3,7 @@ package Characters.Roles;
 import Characters.*;
 import Characters.Character;
 import Location.*;
-import Characters.Gallics.Druid; // Assure-toi que c'est Druid ou Druide selon ton fichier
-import Characters.Gallics.Blacksmith;
-import Characters.Romans.Legionnaire; // Pour recruter des soldats
+import Characters.Gallics.Druid;
 import Location.Place.BattleField;
 import Location.Place.Enclosure;
 

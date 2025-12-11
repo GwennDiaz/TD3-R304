@@ -1,6 +1,5 @@
 package Characters.Romans;
 
-import Characters.Character;
 import Characters.Gender;
 import Characters.Leader;
 

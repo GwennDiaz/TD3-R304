@@ -24,7 +24,7 @@ public class InvasionTheater {
     private String name;
     private List<Location> places;
     private List<ClanChief> chefs;
-    private Colony colony; // NOUVEAU : Gestionnaire des Lycanthropes (TD4)
+    private Colony colony; // Lycanthrope Manager
 
     private final Random random = new Random();
     private final Scanner scanner = new Scanner(System.in);
@@ -33,17 +33,17 @@ public class InvasionTheater {
         this.name = name;
         this.places = new ArrayList<>();
         this.chefs = new ArrayList<>();
-        this.colony = new Colony(); // Initialisation de la colonie
+        this.colony = new Colony(); // Colony initialization
     }
 
     public void Initialize() {
         System.out.println("Creation of Theater : " + this.name);
 
-        // 1. Création des Chefs
+        // Creation of Chefs
         ClanChief chefGaulois = new ClanChief("Abraracourcix", Gender.MALE, 1.60, 50, 80, 80, 100, 0, 10, 0, null, Origin.GALLIC);
         ClanChief chefRomain = new ClanChief("Jules César", Gender.MALE, 1.75, 55, 70, 70, 100, 0, 50, 0, null, Origin.ROMAN);
 
-        // 2. Création des Lieux
+        // Creation of Places
         GallicVillage village = new GallicVillage("Gallic Village", 100, chefGaulois);
         RomanFortifiedCamp camp = new RomanFortifiedCamp("Babaorum", 200, chefRomain);
         BattleField plain = new BattleField("Plain of the Carnutes", 1000, null);
@@ -58,7 +58,7 @@ public class InvasionTheater {
         chefs.add(chefGaulois);
         chefs.add(chefRomain);
 
-        // 3. Population Initiale (Humains)
+        // Initiale Humans Population
         Druid panoramix = new Druid("Panoramix", Gender.MALE, 1.70, 80, 10, 50, 100, 0, 0, 10, 100);
         village.addCharacter(panoramix);
 
@@ -68,21 +68,21 @@ public class InvasionTheater {
         Legionnaire brutus = new Legionnaire("Brutus", Gender.MALE, 1.85, 30, 60, 60, 100, 0, 80, 0, "Legio X");
         plain.addCharacter(brutus);
 
-        // 4. Intégration des Lycanthropes (TD4 dans TD3)
-        // On crée une meute qui vit dans la Plaine
+        // Integration of Lycanthropes
+        // We create a pack that lives in the Plains
         Pack wildPack = new Pack("The Night Howlers");
 
         Lycanthrope alphaM = new Lycanthrope("Fenrir", Gender.MALE, 1.90, 100, 90, 90, 100, 0, 80, 0, Rank.ALPHA, 1.5);
         Lycanthrope alphaF = new Lycanthrope("Luna", Gender.FEMALE, 1.80, 95, 85, 90, 100, 0, 70, 0, Rank.ALPHA, 1.2);
 
-        alphaM.transform(); // Ils commencent sous forme de loups
+        alphaM.transform(); // They start out as wolves
         alphaF.transform();
 
         wildPack.addMember(alphaM);
         wildPack.addMember(alphaF);
 
-        colony.addPack(wildPack); // Ajout à la logique TD4
-        plain.addCharacter(alphaM); // Ajout physique au lieu TD3
+        colony.addPack(wildPack);
+        plain.addCharacter(alphaM);
         plain.addCharacter(alphaF);
 
         System.out.println("World initialized with success (Humans & Lycanthropes)!");
@@ -95,15 +95,15 @@ public class InvasionTheater {
         while (running) {
             System.out.println("\n=== TURN " + turn + " ===");
 
-            // 1. Logique TD4 : Vie de la colonie (Vieillissement, Hiérarchie, Reproduction)
+            // Logic: Colony life (Aging, Hierarchy, Reproduction)
             colony.nextTurn();
 
-            // 2. Logique TD3 : Événements du Théâtre
+            // Theater Events
             handleBattles();
             handleRandomEvents();
             handleResources();
 
-            // 3. Actions Utilisateur
+            // User Action
             handleChiefsTurn();
 
             turn++;
@@ -115,7 +115,6 @@ public class InvasionTheater {
         }
     }
 
-    // --- LOGIQUE EXISTANTE (Inchangée mais nettoyée) ---
 
     private void handleBattles() {
         System.out.println("-> Potential Battles...");
@@ -132,13 +131,25 @@ public class InvasionTheater {
                     }
                 }
             }
+            for (Character c : loc.getPresentCharacters()) {
+                // Make the wolves howl at night if they are wolf-shaped
+                if (c instanceof Characters.MagicalCreature.Lycanthrope.Lycanthrope) {
+                    Characters.MagicalCreature.Lycanthrope.Lycanthrope lycan =
+                            (Characters.MagicalCreature.Lycanthrope.Lycanthrope) c;
+
+                    // We make sure it's shaped like a wolf for howling.
+                    if (!lycan.isHuman()) {
+                        lycan.howl("BATTLE_CRY");
+                    }
+                }
+            }
         }
     }
 
     private void handleRandomEvents() {
         System.out.println("-> Random Events...");
         for (Location loc : places) {
-            // Utilisation d'une copie pour éviter les erreurs de modification concurrente
+            // Using a copy to avoid concurrent modification errors
             for (Character c : new ArrayList<>(loc.getPresentCharacters())) {
                 if (c.isDead()) continue;
 
@@ -146,7 +157,7 @@ public class InvasionTheater {
                     c.setHunger(c.getHunger() + 10);
                 }
 
-                // Si c'est un Druide, il peut tenter de faire une potion automatiquement
+                // If it is a Druid, it can attempt to make a potion automatically.
                 if (c instanceof Druid && random.nextDouble() < 0.2) {
                     ((Druid) c).brewPotion(loc);
                 }
@@ -158,7 +169,7 @@ public class InvasionTheater {
         System.out.println("-> Resource Update");
         for (Location loc : places) {
             if (!(loc instanceof BattleField) && random.nextDouble() < 0.4) {
-                // Simplification : spawn fictif ou ajout réel d'item
+                // Simplification: fictitious spawn or actual item addition
                 System.out.println("Supplies arrived at " + loc.getName());
             }
             for (FoodItem food : loc.getPresentFood()) {
@@ -178,7 +189,7 @@ public class InvasionTheater {
         }
     }
 
-    // Méthodes d'affichage...
+    // Display methods...
     public void showPlace() {
         for (Location location : places) {
             System.out.println("-" + location.getName());
