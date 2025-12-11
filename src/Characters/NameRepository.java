@@ -22,7 +22,7 @@ public class  NameRepository {
     );
 
     private static final List<String> NAME_DRUIDE = Arrays.asList(
-            "Panoramix", "Diagnostix", "Assurancetourix", "Amnésix", "Septantesix"
+            "Panoramix", "Diagnostix", "Assurancetourix", "Amnésix", "Septantesix", "Naomi"
     );
 
     // Listes statiques de noms Romains
@@ -42,7 +42,7 @@ public class  NameRepository {
     // Listes statiques de noms de Lycanthropes
     private static final List<String> NAME_LYCANTHROPE = Arrays.asList(
             "Fenrir", "Lupin", "Remus", "Greyback", "Amarok",
-            "Lycaon", "Asena", "Morrighan", "Volkodlak", "Loup-Garou"
+            "Lycaon", "Asena", "Morrighan", "Volkodlak", "Loup-Garou", "Aiko"
     );
 
     // Random pour sélection aléatoire
