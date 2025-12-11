@@ -6,6 +6,10 @@ import Consommable.FoodItem;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
+/**
+ * Abstract base class representing any character in the simulation (Gaul, Roman, or Creature).
+ * It defines common attributes like health, strength, and common actions like fighting or eating.
+ */
 public abstract class Character {
     protected String name;
     protected Gender gender;
@@ -18,8 +22,25 @@ public abstract class Character {
     protected int belligerence;
     protected int magicPotionLevel;
 
+    /**
+     * Tracks the category of the last food item eaten to apply dietary rules.
+     */
     protected FoodCategory lastFoodCategory;
 
+    /**
+     * Constructs a new Character with specific stats.
+     *
+     * @param name             The name of the character.
+     * @param gender           The gender of the character.
+     * @param height           The height in meters.
+     * @param age              The age in years.
+     * @param strength         The physical strength.
+     * @param endurance        The physical endurance.
+     * @param health           The current health points (0-100).
+     * @param hunger           The current hunger level (0-100).
+     * @param belligerence     The current belligerence/aggressiveness level.
+     * @param magicPotionLevel The current level of magic potion effect.
+     */
     public Character(String name, Gender gender, double height, int age, int strength,
                      int endurance, int health, int hunger, int belligerence, int magicPotionLevel) {
         this.name = name;
@@ -53,10 +74,20 @@ public abstract class Character {
     public void setBelligerence(int belligerence) { this.belligerence = max(0, min(100, belligerence)); }
     public void setMagicPotionLevel(int level) { this.magicPotionLevel = max(0, min(100, level)); }
 
+    /**
+     * @return A string description of the specific character type (e.g., "Roman Legionnaire").
+     */
     public abstract String getType();
 
     //---ACTIONS
 
+    /**
+     * Engages in combat with another character.
+     * Calculates damage based on strength and endurance.
+     * Considers magic potion effects (invincibility and strength boost).
+     *
+     * @param opponent The character to fight against.
+     */
     public void fight(Character opponent) {
         if (this.health <= 0 || opponent.getHealth() <= 0) {
             System.out.println(name + " or opponent is dead.");
@@ -99,6 +130,11 @@ public abstract class Character {
         opponent.checkTrepas();
     }
 
+    /**
+     * Heals the character by a specified amount.
+     *
+     * @param careAmount The amount of health to restore.
+     */
     public void cure(int careAmount) {
         if (this.health <= 0) {
             System.out.println(name + " is dead and cannot be treated!");
@@ -110,6 +146,13 @@ public abstract class Character {
         System.out.println(name + " is treated (Health: " + oldHealth + " -> " + this.health + ")");
     }
 
+    /**
+     * Consumes a food item.
+     * Applies effects on hunger, health, and belligerence.
+     * Enforces rules about fresh food and consecutive vegetables.
+     *
+     * @param food The food item to eat.
+     */
     public void eat(FoodItem food) {
         if (this.health <= 0) {
             System.out.println(name + " is dead and cannot eat!");
@@ -148,6 +191,12 @@ public abstract class Character {
         checkTrepas();
     }
 
+    /**
+     * Consumes magic potion.
+     * Handles positive effects (health, hunger) and overdose risk (Granite Statue).
+     *
+     * @param quantity The amount of potion consumed.
+     */
     public void drinkMagicPotion(int quantity) {
         if (this.health <= 0) return;
 
@@ -167,19 +216,29 @@ public abstract class Character {
         }
     }
 
+    /**
+     * Checks if the character's health has dropped to zero or below.
+     * Triggers passAway() if true.
+     */
     public void checkTrepas() {
         if (this.health <= 0) {
             this.health = 0;
-            trepasser();
+            passAway();
         }
     }
 
-    public void trepasser() {
+    /**
+     * Handles the character's death.
+     */
+    public void passAway() {
         System.out.println("☠ " + name + " (" + getType() + ") has passed away... RIP");
         this.health = 0;
         this.belligerence = 0;
     }
 
+    /**
+     * @return true if the character is dead (health <= 0).
+     */
     public boolean isDead(){
         return this.health <= 0;
     }

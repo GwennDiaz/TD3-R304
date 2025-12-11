@@ -10,11 +10,31 @@ import Location.Place.Enclosure;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Represents a Clan Chief (e.g., Abraracourcix or Caesar).
+ * The Chief is responsible for managing a location and its inhabitants.
+ * This class provides an interactive menu for the user to give orders.
+ */
 public class ClanChief extends Character {
     private Location myLocation;
     private Origin origin; // Chief Nationality
 
-    // constructor
+    /**
+     * Constructs a new Clan Chief.
+     *
+     * @param name             The name of the chief.
+     * @param gender           The gender of the chief.
+     * @param height           The height of the chief.
+     * @param age              The age of the chief.
+     * @param strength         The strength of the chief.
+     * @param endurance        The endurance of the chief.
+     * @param health           The initial health.
+     * @param hunger           The initial hunger level.
+     * @param belligerence     The initial belligerence level.
+     * @param magicPotionLevel The initial magic potion level.
+     * @param location         The location the chief governs.
+     * @param origin           The origin (Gallic or Roman) of the chief.
+     */
     public ClanChief(String name, Gender gender, double height, int age, int strength,
                      int endurance, int health, int hunger, int belligerence,
                      int magicPotionLevel, Location location, Origin origin) {
@@ -33,6 +53,14 @@ public class ClanChief extends Character {
     }
 
     // MENU INTERACTIF
+
+    /**
+     * Displays an interactive menu for the user to control the chief's actions.
+     * Allows healing, recruiting, transferring characters, or managing potions.
+     *
+     * @param scanner        The scanner to read user input.
+     * @param worldLocations The list of all locations in the simulation (for transfers).
+     */
     public void openActionMenu(Scanner scanner, List<Location> worldLocations) {
         boolean stayInMenu = true;
 
@@ -72,7 +100,12 @@ public class ClanChief extends Character {
 
     // -Internal Methods
 
-    // Method for selecting a character by name
+    /**
+     * Helper method to select a character from the current location via user input.
+     *
+     * @param scanner The scanner for input.
+     * @return The selected Character, or null if invalid or nobody present.
+     */
     private Character selectCharacter(Scanner scanner) {
         if (myLocation == null || myLocation.getPresentCharacters().isEmpty()) {
             System.out.println("There's nobody here!");
@@ -103,6 +136,11 @@ public class ClanChief extends Character {
         System.out.println("Invalid number.");
         return null;
     }
+
+    /**
+     * Helper method to handle character creation interaction.
+     * Asks the user for character type and name, then starts a thread for creation.
+     */
     private void createNewCharacterInteraction(Scanner scanner) {
         if (myLocation == null) {
             System.out.println("Impossible to recruit: You're nowhere to be found!");
@@ -153,6 +191,9 @@ public class ClanChief extends Character {
         }
     }
 
+    /**
+     * Handles the interaction where the chief asks a druid to prepare a potion for someone.
+     */
     private void handlePotionRequest(Scanner scanner) {
         Druid localDruid = null;
         for (Character c : myLocation.getPresentCharacters()) {
@@ -175,6 +216,9 @@ public class ClanChief extends Character {
         }
     }
 
+    /**
+     * Handles the interaction where the chief forces someone to drink a potion.
+     */
     private void handleGivePotion(Scanner scanner) {
         System.out.println("Who should drink? (Name)");
         Character target = selectCharacter(scanner);
@@ -183,6 +227,10 @@ public class ClanChief extends Character {
         }
     }
 
+    /**
+     * Handles the interaction to transfer a character from the current location to another.
+     * Only Battlefields or Enclosures are valid destinations for simplicity.
+     */
     private void handleTransfer(Scanner scanner, List<Location> worldLocations) {
         System.out.println("Who should transfer ? (Name");
         Character traveler = selectCharacter(scanner);
@@ -210,6 +258,9 @@ public class ClanChief extends Character {
 
     // -LOGICAL ACTIONS
 
+    /**
+     * Inspects the current location and prints its status.
+     */
     public void examineLocation() {
         if (myLocation != null) myLocation.printStatus();
         else System.out.println(this.name + " has no place!");
@@ -219,6 +270,9 @@ public class ClanChief extends Character {
         if (myLocation != null) myLocation.addCharacter(newCharacter);
     }
 
+    /**
+     * Orders the healing of all characters in the current location.
+     */
     public void orderHealing() {
         if (myLocation != null) {
             System.out.println(this.name + " orders everyone to be treated!");
@@ -226,11 +280,20 @@ public class ClanChief extends Character {
         }
     }
 
+    /**
+     * Asks a specific druid to prepare potion for a target.
+     */
     public void askDruidForPotion(Druid druid, Character target, int quantity) {
         System.out.println(this.name + " give a potion to " + druid.getName());
         druid.preparePotion(target, quantity);
     }
 
+    /**
+     * Moves a character from the current location to a new destination.
+     *
+     * @param character   The character to move.
+     * @param destination The target location (BattleField or Enclosure).
+     */
     public void transferCharacter(Character character, Location destination) {
         if (!myLocation.getPresentCharacters().contains(character)) {
             System.out.println(character.getName() + " is not here.");

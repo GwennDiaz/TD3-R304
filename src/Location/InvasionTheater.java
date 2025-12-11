@@ -6,10 +6,10 @@ import Characters.Gender;
 import Characters.Origin;
 import Characters.Roles.ClanChief;
 import Characters.Romans.Legionnaire;
-import Characters.MagicalCreature.Lycanthrope.Colony;      // NOUVEAU
-import Characters.MagicalCreature.Lycanthrope.Pack;        // NOUVEAU
-import Characters.MagicalCreature.Lycanthrope.Lycanthrope; // NOUVEAU
-import Characters.MagicalCreature.Lycanthrope.Rank;        // NOUVEAU
+import Characters.MagicalCreature.Lycanthrope.Colony;
+import Characters.MagicalCreature.Lycanthrope.Pack;
+import Characters.MagicalCreature.Lycanthrope.Lycanthrope;
+import Characters.MagicalCreature.Lycanthrope.Rank;
 import Consommable.FoodItem;
 import Location.Place.BattleField;
 import Location.Place.GallicVillage;
@@ -21,6 +21,10 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
+/**
+ * Represents the main simulation environment where the invasion takes place.
+ * It manages locations, clan chiefs, and the global flow of time (turns).
+ */
 public class InvasionTheater {
     private String name;
     private Box<Location> places;
@@ -30,6 +34,11 @@ public class InvasionTheater {
     private final Random random = new Random();
     private final Scanner scanner = new Scanner(System.in);
 
+    /**
+     * Initializes a new Invasion Theater with a specific name and empty containers.
+     *
+     * @param name The name of the theater (e.g., "Armorique").
+     */
     public InvasionTheater(String name) {
         this.name = name;
         this.places = new Box<>();
@@ -37,6 +46,10 @@ public class InvasionTheater {
         this.colony = new Colony(); // Colony initialization
     }
 
+    /**
+     * Sets up the initial state of the simulation.
+     * Creates places, characters (Gauls, Romans, Lycanthropes), and assigns them to locations.
+     */
     public void Initialize() {
         System.out.println("Creation of Theater : " + this.name);
 
@@ -89,6 +102,10 @@ public class InvasionTheater {
         System.out.println("World initialized with success (Humans & Lycanthropes)!");
     }
 
+    /**
+     * The main loop of the simulation.
+     * It handles the progression of turns, colony evolution, events, and user interactions.
+     */
     public void simulationLoop() {
         boolean running = true;
         int turn = 1;
@@ -116,7 +133,9 @@ public class InvasionTheater {
         }
     }
 
-
+    /**
+     * Manages combat events on battlefields and triggers special creature behaviors
+     */
     private void handleBattles() {
         System.out.println("-> Potential Battles...");
         for (Location loc : places.getContents()) {
@@ -147,6 +166,9 @@ public class InvasionTheater {
         }
     }
 
+    /**
+     * Generates random events such as hunger increase or automatic potion brewing by druids
+     */
     private void handleRandomEvents() {
         System.out.println("-> Random Events...");
         for (Location loc : places.getContents()) {
@@ -166,6 +188,9 @@ public class InvasionTheater {
         }
     }
 
+    /**
+     * Updates resources in the locations, including food decay and new supply arrivals
+     */
     private void handleResources() {
         System.out.println("-> Resource Update");
         for (Location loc : places.getContents()) {
@@ -181,6 +206,9 @@ public class InvasionTheater {
         }
     }
 
+    /**
+     * [Iterates through all clan chiefs to allow them to perform their actions (user controlled)
+     */
     private void handleChiefsTurn() {
         System.out.println("\n--- Clan Chiefs' Orders ---");
         // Using our generic Box class to iterate
@@ -193,6 +221,10 @@ public class InvasionTheater {
     }
 
     // Display methods...
+
+    /**
+     * Displays the list of all locations present in the theater.
+     */
     public void showPlace() {
         for (Location location : places.getContents()) {
             System.out.println("-" + location.getName());

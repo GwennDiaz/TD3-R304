@@ -12,12 +12,23 @@ import Characters.Romans.Prefect;
 
 import java.util.*;
 
+/**
+ * A task that handles the creation of a new character in a separate thread.
+ * Simulates a time-consuming process (training/recruitment).
+ */
 public class CharacterCreator implements Runnable {
     private String name;
     private String type;
     private List<Character> listCharacters;
     private Random random;
 
+    /**
+     * Constructs a new CharacterCreator task.
+     *
+     * @param name           The name of the character to create.
+     * @param type           The type of character (e.g., "Legionnaire", "Druid").
+     * @param listCharacters The list where the created character will be added.
+     */
     public CharacterCreator(String name, String type, List<Character> listCharacters) {
         this.name = name;
         this.type = type;
@@ -25,6 +36,11 @@ public class CharacterCreator implements Runnable {
         this.random = new Random();
     }
 
+    /**
+     * Executes the character creation process.
+     * Simulates a delay, generates random stats, creates the specific object,
+     * and adds it to the shared list in a thread-safe manner.
+     */
     @Override
     public void run() {
         try {
@@ -46,26 +62,27 @@ public class CharacterCreator implements Runnable {
 
             Character character = null;
 
+            // Switch updated to match English types sent by ClanChief
             switch(type.toLowerCase()) {
-                case "marchand":
+                case "merchant":
                     int money = 500 + random.nextInt(1500);
                     character = new Merchant(name, gender, height, age, strength, endurance,
                             health, hunger, belligerence, magicPotionLevel, money);
                     break;
 
-                case "aubergiste":
+                case "innkeeper":
                     int hostingCapacity = 10 + random.nextInt(40);
                     character = new Innkeeper(name, gender, height, age, strength, endurance,
                             health, hunger, belligerence, magicPotionLevel, hostingCapacity);
                     break;
 
-                case "forgeron":
+                case "blacksmith":
                     int weaponQuality = 50 + random.nextInt(50);
                     character = new Blacksmith(name, gender, height, age, strength, endurance,
                             health, hunger, belligerence, magicPotionLevel, weaponQuality);
                     break;
 
-                case "druide":
+                case "druid":
                     int magicPower = 70 + random.nextInt(30);
                     character = new Druid(name, gender, height, age, strength, endurance,
                             health, hunger, belligerence, magicPotionLevel, magicPower);
@@ -78,7 +95,7 @@ public class CharacterCreator implements Runnable {
                             health, hunger, belligerence, magicPotionLevel, legion);
                     break;
 
-                case "prefet":
+                case "prefect":
                     String[] provinces = {"Gaule", "Hispanie", "Germanie", "Britannia", "Africa"};
                     String province = provinces[random.nextInt(provinces.length)];
                     character = new Prefect(name, gender, height, age, strength, endurance,
@@ -92,8 +109,8 @@ public class CharacterCreator implements Runnable {
                     break;
 
                 case "lycanthrope":
-                    // CORRECTION : Ajout des paramètres manquants pour le TD4 (Rank + Impetuosity)
-                    // Par défaut, un lycanthrope créé aléatoirement est OMEGA avec impétuosité moyenne
+                    // CORRECTION : Added missing parameters for TD4 (Rank + Impetuosity)
+                    // By default, a randomly created lycanthrope is OMEGA with average impetuosity
                     character = new Lycanthrope(name, gender, height, age, strength, endurance,
                             health, hunger, belligerence, magicPotionLevel,
                             Rank.OMEGA, 1.0);
@@ -101,6 +118,7 @@ public class CharacterCreator implements Runnable {
             }
 
             if (character != null) {
+                // Synchronize access to the shared list
                 synchronized(listCharacters) {
                     listCharacters.add(character);
                 }
