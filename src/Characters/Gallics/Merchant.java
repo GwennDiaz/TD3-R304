@@ -4,7 +4,7 @@ import Characters.Character;
 import Characters.Gender;
 import Characters.Worker;
 
-public class Merchant extends Gallic implements Worker {
+public non-sealed class Merchant extends Gallic implements Worker {
     private int money;
 
     public Merchant(String name, Gender gender, double height, int age, int strength,

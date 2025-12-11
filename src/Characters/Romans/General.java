@@ -7,7 +7,7 @@ import Characters.Leader;
 
 import static java.lang.Math.min;
 
-public class General extends Roman implements Fighter, Leader {
+public non-sealed class General extends Roman implements Fighter, Leader {
     private int victoryCount;
     private int soldierCount;
     private int popularity = 50;

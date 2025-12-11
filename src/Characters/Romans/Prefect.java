@@ -5,7 +5,7 @@ import Characters.Leader;
 
 import static java.lang.Math.min;
 
-public class Prefect extends Roman implements Leader {
+public non-sealed class Prefect extends Roman implements Leader {
     private String province;
     private int popularity; // 0-100
 
