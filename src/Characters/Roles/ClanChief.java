@@ -84,7 +84,7 @@ public class ClanChief extends Character {
                 switch (choice) {
                     case 1: examineLocation(); break;
                     case 2: orderHealing(); break;
-                    case 3: createNewCharacterInteraction(scanner); break; // Méthode améliorée
+                    case 3: createNewCharacterInteraction(scanner); break;
                     case 4: handlePotionRequest(scanner); break;
                     case 5: handleGivePotion(scanner); break;
                     case 6: handleTransfer(scanner, worldLocations); break;
