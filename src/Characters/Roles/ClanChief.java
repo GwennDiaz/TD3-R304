@@ -75,7 +75,7 @@ public class ClanChief extends Character {
             System.out.println("5. Give someone a potion");
             System.out.println("6. Transfer character");
             System.out.println("0. Quit");
-            System.out.print("Your choise : ");
+            System.out.print("Your choice : ");
 
             if (scanner.hasNextInt()) {
                 int choice = scanner.nextInt();

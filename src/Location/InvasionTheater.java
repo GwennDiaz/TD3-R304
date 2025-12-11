@@ -53,53 +53,91 @@ public class InvasionTheater {
     public void Initialize() {
         System.out.println("Creation of Theater : " + this.name);
 
-        // Creation of Chefs
+        // 1. Creation of Chefs (Essentiel)
         ClanChief chefGaulois = new ClanChief("Abraracourcix", Gender.MALE, 1.60, 50, 80, 80, 100, 0, 10, 0, null, Origin.GALLIC);
         ClanChief chefRomain = new ClanChief("Jules César", Gender.MALE, 1.75, 55, 70, 70, 100, 0, 50, 0, null, Origin.ROMAN);
 
-        // Creation of Places
+        // 2. Creation of Places
         GallicVillage village = new GallicVillage("Gallic Village", 100, chefGaulois);
         RomanFortifiedCamp camp = new RomanFortifiedCamp("Babaorum", 200, chefRomain);
         BattleField plain = new BattleField("Plain of the Carnutes", 1000, null);
 
+        // Assign locations to chiefs
         chefGaulois.setLocation(village);
         chefRomain.setLocation(camp);
 
+        // Add places to the theater
         places.add(village);
         places.add(camp);
         places.add(plain);
 
+        // Add chiefs to the theater
         chefs.add(chefGaulois);
         chefs.add(chefRomain);
 
-        // Initiale Humans Population
+        // MASSIVE POPULATION
+
+        //Populate the Gallic Village (1 Druid + 5 random inhabitants)
         Druid panoramix = new Druid("Panoramix", Gender.MALE, 1.70, 80, 10, 50, 100, 0, 0, 10, 100);
         village.addCharacter(panoramix);
 
-        Legionnaire minus = new Legionnaire("Minus", Gender.MALE, 1.80, 25, 50, 50, 100, 0, 20, 0, "Legio I");
-        camp.addCharacter(minus);
+        // We add a few generic Gauls (Merchant, Blacksmith classes, etc.).
+        for(int i=0; i<5; i++) {
+            String nom = Characters.NameRepository.getNameBlacksmith();
 
+            Characters.Gallics.Blacksmith forgeron = new Characters.Gallics.Blacksmith(
+                    nom, Gender.MALE, 1.70, 30, 60, 60, 100, 0, 20, 0, 50
+            );
+            village.addCharacter(forgeron);
+        }
+
+        // Populate the Roman Camp (10 Legionnaires)
+        for (int i = 1; i <= 10; i++) {
+            String legion = (i % 2 == 0) ? "Legio I" : "Legio X";
+            String nom = Characters.NameRepository.getNameLegionnaire();
+            Legionnaire l = new Legionnaire(
+                    nom,
+                    Gender.MALE, 1.75, 25, 50, 50, 100, 0, 40, 0, legion
+            );
+            camp.addCharacter(l);
+        }
+
+        // Populate the Battlefield
         Legionnaire brutus = new Legionnaire("Brutus", Gender.MALE, 1.85, 30, 60, 60, 100, 0, 80, 0, "Legio X");
         plain.addCharacter(brutus);
 
         // Integration of Lycanthropes
-        // We create a pack that lives in the Plains
         Pack wildPack = new Pack("The Night Howlers");
 
+        // Alpha Couple
         Lycanthrope alphaM = new Lycanthrope("Fenrir", Gender.MALE, 1.90, 100, 90, 90, 100, 0, 80, 0, Rank.ALPHA, 1.5);
         Lycanthrope alphaF = new Lycanthrope("Luna", Gender.FEMALE, 1.80, 95, 85, 90, 100, 0, 70, 0, Rank.ALPHA, 1.2);
 
-        alphaM.transform(); // They start out as wolves
+        alphaM.transform();
         alphaF.transform();
-
         wildPack.addMember(alphaM);
         wildPack.addMember(alphaF);
-
-        colony.addPack(wildPack);
         plain.addCharacter(alphaM);
         plain.addCharacter(alphaF);
 
-        System.out.println("World initialized with success (Humans & Lycanthropes)!");
+        // Added 4 Gamma wolves (Soldiers) to the pack
+        for(int i=0; i<4; i++) {
+            String nom = Characters.NameRepository.getNameLycanthrope();
+
+            Lycanthrope wolf = new Lycanthrope(
+                    nom,
+                    (i % 2 == 0 ? Gender.MALE : Gender.FEMALE),
+                    1.70, 20, 60, 60, 100, 0, 50, 0, Rank.GAMMA, 1.0
+            );
+
+            wolf.transform();
+            wildPack.addMember(wolf);
+            plain.addCharacter(wolf);
+        }
+
+        colony.addPack(wildPack);
+
+        System.out.println("World initialized with success (Population: High)!");
     }
 
     /**
@@ -134,34 +172,73 @@ public class InvasionTheater {
     }
 
     /**
+     * Checks if two characters belong to the same faction (Gallic, Roman, or Lycanthrope).
+     */
+    private boolean isSameFaction(Character c1, Character c2) {
+        // Verification of Gallic Camp (Gallic Authority OR Leader of Gallic Origin)
+        boolean c1IsGallic = (c1 instanceof Characters.Gallics.Gallic) ||
+                (c1 instanceof ClanChief && ((ClanChief) c1).getOrigin() == Origin.GALLIC);
+        boolean c2IsGallic = (c2 instanceof Characters.Gallics.Gallic) ||
+                (c2 instanceof ClanChief && ((ClanChief) c2).getOrigin() == Origin.GALLIC);
+
+        if (c1IsGallic && c2IsGallic) return true;
+
+        //Verification Roman Camp
+        boolean c1IsRoman = (c1 instanceof Characters.Romans.Roman) ||
+                (c1 instanceof ClanChief && ((ClanChief) c1).getOrigin() == Origin.ROMAN);
+        boolean c2IsRoman = (c2 instanceof Characters.Romans.Roman) ||
+                (c2 instanceof ClanChief && ((ClanChief) c2).getOrigin() == Origin.ROMAN);
+
+        if (c1IsRoman && c2IsRoman) return true;
+
+        // Lycanthrope Camp Verification
+        boolean c1IsLycan = (c1 instanceof Characters.MagicalCreature.Lycanthrope.Lycanthrope);
+        boolean c2IsLycan = (c2 instanceof Characters.MagicalCreature.Lycanthrope.Lycanthrope);
+
+        if (c1IsLycan && c2IsLycan) return true;
+
+        return false;
+    }
+
+    /**
      * Manages combat events on battlefields and triggers special creature behaviors
      */
     private void handleBattles() {
         System.out.println("-> Potential Battles...");
+
         for (Location loc : places.getContents()) {
+            // Combat management
             if (loc instanceof BattleField) {
                 List<Character> population = loc.getPresentCharacters();
                 if (population.size() >= 2) {
                     Character c1 = population.get(random.nextInt(population.size()));
-                    Character c2 = population.get(random.nextInt(population.size()));
+                    Character c2 = c1;
 
-                    if (c1 != c2 && !c1.isDead() && !c2.isDead()) {
+                    int attempts = 0;
+                    while ((c1 == c2 || isSameFaction(c1, c2)) && attempts < 10) {
+                        c2 = population.get(random.nextInt(population.size()));
+                        attempts++;
+                    }
+
+                    if (c1 != c2 && !isSameFaction(c1, c2) && !c1.isDead() && !c2.isDead()) {
                         System.out.println("Conflict at " + loc.getName() + "!");
                         c1.fight(c2);
+
+                        // Gestion des hurlements de loups
+                        makeWolfHowlIfPossible(c1);
+                        makeWolfHowlIfPossible(c2);
                     }
                 }
             }
-            for (Character c : loc.getPresentCharacters()) {
-                // Make the wolves howl at night if they are wolf-shaped
-                if (c instanceof Characters.MagicalCreature.Lycanthrope.Lycanthrope) {
-                    Characters.MagicalCreature.Lycanthrope.Lycanthrope lycan =
-                            (Characters.MagicalCreature.Lycanthrope.Lycanthrope) c;
+        }
+    }
 
-                    // We make sure it's shaped like a wolf for howling.
-                    if (!lycan.isHuman()) {
-                        lycan.howl("BATTLE_CRY");
-                    }
-                }
+    private void makeWolfHowlIfPossible(Character c) {
+        if (c instanceof Characters.MagicalCreature.Lycanthrope.Lycanthrope) {
+            Characters.MagicalCreature.Lycanthrope.Lycanthrope lycan =
+                    (Characters.MagicalCreature.Lycanthrope.Lycanthrope) c;
+            if (!lycan.isHuman()) {
+                lycan.howl("BATTLE_CRY");
             }
         }
     }
