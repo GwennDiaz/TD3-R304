@@ -27,7 +27,7 @@ public class Druid extends Gallic implements Fighter, Leader, Worker {
         return magicPower;
     }
 
-    public void concocterMarmite(Location lieu) {
+    public void concoctMarmite(Location lieu) {
         System.out.println(name + " light the fire under the cauldron...");
 
         // Define the “Superhuman Strength” effect

@@ -12,8 +12,8 @@ public class Legionnaire extends Roman {
 
     public Legionnaire(String name, Gender gender, double height, int age, int strength,
                        int endurance, int health, int hunger, int belligerence,
-                       int niveauPotionMagique, String legion) {
-        super(name, gender, height, age, strength, endurance, health, hunger, belligerence, niveauPotionMagique);
+                       int levelMagicPotion, String legion) {
+        super(name, gender, height, age, strength, endurance, health, hunger, belligerence, levelMagicPotion);
         this.legion = legion;
         this.inService = true;
     }
@@ -42,12 +42,6 @@ public class Legionnaire extends Roman {
         }
     }
 
-    public void combattre(Character adversaire) {
-        System.out.println(name + " combat contre " + adversaire.getName());
-        int degats = this.strength / 10;
-        adversaire.setHealth(max(0, adversaire.getHealth() - degats));
-        setBelligerence(min(100, getBelligerence() + 10));
-    }
 
     public void rest() {
         inService = false;
