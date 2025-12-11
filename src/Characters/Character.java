@@ -170,11 +170,11 @@ public abstract class Character {
     public void checkTrepas() {
         if (this.health <= 0) {
             this.health = 0;
-            passAway();
+            trepasser();
         }
     }
 
-    public void passAway() {
+    public void trepasser() {
         System.out.println("☠ " + name + " (" + getType() + ") has passed away... RIP");
         this.health = 0;
         this.belligerence = 0;

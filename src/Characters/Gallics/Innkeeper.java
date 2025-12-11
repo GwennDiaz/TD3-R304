@@ -6,7 +6,7 @@ import Characters.Worker;
 
 import static java.lang.Math.max;
 
-public class Innkeeper extends Gallic implements Worker {
+public non-sealed class Innkeeper extends Gallic implements Worker {
     private int hostingCapacity;
     private int currentCustomers;
 

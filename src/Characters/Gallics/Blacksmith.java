@@ -6,7 +6,7 @@ import Characters.Worker;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
-public class Blacksmith extends Gallic implements Worker {
+public non-sealed class Blacksmith extends Gallic implements Worker {
     private int weaponQuality; // 0-100
 
     public Blacksmith(String name, Gender gender, double height, int age, int strength,

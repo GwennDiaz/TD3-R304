@@ -13,7 +13,7 @@ import java.util.List;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
-public class Druid extends Gallic implements Fighter, Leader, Worker {
+public non-sealed class Druid extends Gallic implements Fighter, Leader, Worker {
     private int magicPower;
 
     public Druid(String name, Gender gender, double height, int age, int strength,
@@ -27,7 +27,7 @@ public class Druid extends Gallic implements Fighter, Leader, Worker {
         return magicPower;
     }
 
-    public void concoctMarmite(Location lieu) {
+    public void concocterMarmite(Location lieu) {
         System.out.println(name + " light the fire under the cauldron...");
 
         // Define the “Superhuman Strength” effect
