@@ -237,7 +237,7 @@ public abstract class Character {
     }
 
     /**
-     * @return true if the character is dead (health <= 0).
+     * @return true if the character is dead (health less than or equal to 0).
      */
     public boolean isDead(){
         return this.health <= 0;
