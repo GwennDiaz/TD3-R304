@@ -14,6 +14,7 @@ import Consommable.FoodItem;
 import Location.Place.BattleField;
 import Location.Place.GallicVillage;
 import Location.Place.RomanFortifiedCamp;
+import Utils.Box;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +23,8 @@ import java.util.Scanner;
 
 public class InvasionTheater {
     private String name;
-    private List<Location> places;
-    private List<ClanChief> chefs;
+    private Box<Location> places;
+    private Box<ClanChief> chefs;
     private Colony colony; // Lycanthrope Manager
 
     private final Random random = new Random();
@@ -31,8 +32,8 @@ public class InvasionTheater {
 
     public InvasionTheater(String name) {
         this.name = name;
-        this.places = new ArrayList<>();
-        this.chefs = new ArrayList<>();
+        this.places = new Box<>();
+        this.chefs = new Box<>();
         this.colony = new Colony(); // Colony initialization
     }
 
@@ -118,7 +119,7 @@ public class InvasionTheater {
 
     private void handleBattles() {
         System.out.println("-> Potential Battles...");
-        for (Location loc : places) {
+        for (Location loc : places.getContents()) {
             if (loc instanceof BattleField) {
                 List<Character> population = loc.getPresentCharacters();
                 if (population.size() >= 2) {
@@ -148,7 +149,7 @@ public class InvasionTheater {
 
     private void handleRandomEvents() {
         System.out.println("-> Random Events...");
-        for (Location loc : places) {
+        for (Location loc : places.getContents()) {
             // Using a copy to avoid concurrent modification errors
             for (Character c : new ArrayList<>(loc.getPresentCharacters())) {
                 if (c.isDead()) continue;
@@ -167,7 +168,7 @@ public class InvasionTheater {
 
     private void handleResources() {
         System.out.println("-> Resource Update");
-        for (Location loc : places) {
+        for (Location loc : places.getContents()) {
             if (!(loc instanceof BattleField) && random.nextDouble() < 0.4) {
                 // Simplification: fictitious spawn or actual item addition
                 System.out.println("Supplies arrived at " + loc.getName());
@@ -182,16 +183,18 @@ public class InvasionTheater {
 
     private void handleChiefsTurn() {
         System.out.println("\n--- Clan Chiefs' Orders ---");
-        for (ClanChief chief : chefs) {
+        // Using our generic Box class to iterate
+        for (int i = 0; i < chefs.size(); i++) {
+            ClanChief chief = chefs.get(i);
             if (!chief.isDead()) {
-                chief.openActionMenu(scanner, places);
+                chief.openActionMenu(scanner, places.getContents());
             }
         }
     }
 
     // Display methods...
     public void showPlace() {
-        for (Location location : places) {
+        for (Location location : places.getContents()) {
             System.out.println("-" + location.getName());
         }
     }

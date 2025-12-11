@@ -14,7 +14,8 @@ public abstract class Location {
     protected String name;
     protected double area;
     protected ClanChief clanChief;
-    protected List<Character> presentCharacters = new CopyOnWriteArrayList<>();    protected List<FoodItem> presentFood;
+    protected List<Character> presentCharacters = new CopyOnWriteArrayList<>();
+    protected List<FoodItem> presentFood;
     protected Environment environment;
     protected Potion marmite;
 
